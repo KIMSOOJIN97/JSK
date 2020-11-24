@@ -10,22 +10,15 @@
         <script src="https://kit.fontawesome.com/fcb4a1c19d.js" crossorigin="anonymous"></script>
         
         <meta charset="UTF-8">
-        <title>로그인 페이지</title>
 
-        <style>
-
-          .gradation {
-            background: linear-gradient( to bottom, white, #0D0922 );
-
-        </style>
-    
     </head>
-    <body style="background-color:#000000">
 
-        <div class="gradation" style="width: 100%; height: 100px; margin-bottom: 10px;">
-            <% include header_footer/header %>
+    <body style="background-color:white">
+
+        <div style="text-align:center;">
+            <img src="kw.png" style="max-width: 750px; height: 100px; vertical-align: middle; margin-top:100px">
         </div>
-        
+
         <div style="padding-top:130px; width:900px; margin:0 auto;">
             <div class="ui placeholder segment">
                 <form method="post" action="/LoginButton">
@@ -34,9 +27,9 @@
                             <div class="ui form">
                                 <form method="post" action="/LoginButton">  
                                     <div class="field">
-                                        <label>Email</label>
+                                        <label>ID</label>
                                         <div class="ui left icon input">
-                                            <input type="text" placeholder="Email" name="id">
+                                            <input type="text" placeholder="ID" name="id">
                                             <i class="user icon"></i>
                                         </div>
                                     </div>
@@ -54,7 +47,7 @@
                             </div>
                         </div>
                         <div class="middle aligned column">
-                            <form method="get" action="/Signup">
+                            <form method="get" action="/joinForm">
                                 <button class="ui blue button">
                                     Sign up
                                 </button>
@@ -67,7 +60,9 @@
                 </form>
             </div>
         </div>
+
     </body>
 </html>
 
-<% include header_footer/footer %>
+
+
