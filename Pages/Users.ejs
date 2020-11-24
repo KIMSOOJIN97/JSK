@@ -1,0 +1,30 @@
+<% include header_footer/header_home %>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+        <script src="semantic/semantic.js"></script>
+        <script src="https://kit.fontawesome.com/fcb4a1c19d.js" crossorigin="anonymous"></script>        
+        
+        <meta charset="UTF-8">
+        <title>Users 페이지</title>
+
+    </head>
+    <body>
+        <h2 align="center">User List</h2>
+        
+        <p>사용자 수: <%= rowsAffected %> </p>
+        <div>
+            <ul>
+                <% for(var i=0; i<rowsAffected; i++) { %>
+                    <li> <%= i+1 %># ID : <%= recordset[i].b_id %> / Name : <%= recordset[i].b_name %> / Password: <%= recordset[i].b_password %></li>
+                <% } %>
+            </ul>
+        </div>
+    </body>
+</html>
+<% include header_footer/footer %>

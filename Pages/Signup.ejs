@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+        <script src="semantic/semantic.js"></script>
+        <script src="https://kit.fontawesome.com/fcb4a1c19d.js" crossorigin="anonymous"></script>
+        
+        <meta charset="UTF-8">
+        <title>회원가입 페이지</title>
+
+        <style>
+
+          .gradation {
+            background: linear-gradient( to bottom, white, #0D0922 )
+
+        </style>
+    
+    </head>
+    <body style="background-color:#000000">
+
+        <div class="gradation" style="width: 100%; height: 100px; margin-bottom: 10px;">
+            <% include header_footer/header %>
+        </div>
+        
+        <div style="padding-top:80px; padding-left:30px">
+            <div class="ui large form">
+                <form method="post" action="/SignupButton">
+                    <div class="fields">   
+                        <div class="field">
+                          <label style="color:white">Username</label>
+                          <input placeholder="Username" type="text" name="username">
+                        </div>
+                    </div>
+                    <div class="fields" style="padding-top:50px;">   
+                        <div class="field">
+                          <label style="color:white">ID</label>
+                          <input placeholder="Email" type="text" name="id">
+                        </div>
+                        <div class="field">
+                          <label style="color:white">Password</label>
+                          <input placeholder="Password" type="password" name="password">
+                        </div>
+                    </div>
+                    <div class="fields" style="padding-top:50px; padding-bottom: 50px">   
+                        <div class="field">
+                          <label style="color:white">Phone Number</label>
+                          <input placeholder="010-0000-0000" type="text" name="phone">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="ui large blue button">
+                            Sign up
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+
+<% include header_footer/footer %>
