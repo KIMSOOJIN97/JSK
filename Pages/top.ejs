@@ -1,0 +1,38 @@
+<style>
+    .gradation {
+      background: #9fa8da;
+    }
+  </style>
+  
+  <title>광운대학교</title>
+
+  <div class="gradation" style="width: 100%; height: 70px; margin-bottom: 10px;">
+
+    <div class="ui secondary menu" style="padding-top:10px; margin-left: 25px;">
+      <a class="item" href="/Main">
+          <strong>Home</strong>
+      </a> 
+      <a class="item" href="/Board">
+          <strong>성적 조회</strong>
+      </a>
+      <a class="item" href="Upload">
+          <strong>장학 조회</strong>
+      </a>
+      <a class="item" href="Chat">
+          <strong>친구와의 채팅</strong>
+      </a>
+      <div class="right menu">  
+      <script>
+        var sessionuser = '<%-userid%>'
+        if(sessionuser == 'No_One') {
+          document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
+
+        } else {
+            document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+        }
+      </script>
+      
+      </div>
+    </div>
+
+</div>

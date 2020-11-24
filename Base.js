@@ -9,14 +9,11 @@ var bodyparser = require('body-parser');
 
 var errorHandler = require('errorhandler');
 var expressErrorHandler = require('express-error-handler');
-
 var expressSession = require('express-session');
-
 var socketio = require('socket.io');
 var cors = require('cors');
 
 var config = require('./config');
-
 var file_loader = require('./file_loader');
 
 //////////////////////////////////////////////////////////////////////////////
