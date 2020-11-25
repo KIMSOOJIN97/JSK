@@ -26,45 +26,55 @@ function leadingZeros(n, digits) {
   router.get('/', function(req, res, next) {
     res.render('joinForm', { title: 'joinForm'/*, username:req.session.username, admin:req.session.admin, sale:req.session.sale*/ });
   });
-  
+
   router.post('/', function(req,res,next){
-      var student_ID = req.body.ID;
-      var email = req.body.email;
-      var passwd = req.body.passwd;
-      var student_name = req.body.username;
-      var address = req.body.address;
-      var address2 = req.body.address2;
-      var phone_number = req.body.phone;
 
-      console.log(req.address);
+    var stuorprof = req.body.stuorprof || req.query.stuorprof;
+    var ID = req.body.ID;
+    var email = req.body.email;
+    var password = req.body.passwd;
+    var name = req.body.username;
+    var address = req.body.address;
+    var address2 = req.body.address2;
+    var phone_number = req.body.phone;
 
-      if(address2 != "") address = address+" "+address2;
+    var datas = [student_ID, student_name];
 
-      pool.getConnection(function (err, connection)
-      {
-          var sql = "SELECT * FROM Student WHERE email=?";
-          connection.query(sql, [email], function(err, result){
-              if(err) console.error(err);
-              
-              if(result != ""){	// 이메일이 이미 존재하는  경우
-                  res.send("<script>alert('이메일이 이미 존재합니다.');history.back();</script>");
-                  connection.release();
-              }
-              else{
-                  pool.getConnection(function (err, connection)
-                  {
-                      var sql = "INSERT INTO Student(student_ID, passwd, student_name,phone_number, email,address) values(?,?,?,?,?,?)";
-                      connection.query(sql, [student_ID, passwd, student_name, phone_number, email,address], function(err, result){
-                          if(err) console.error(err);
-                          
-                          res.send("<script>alert('회원가입 되었습니다.');window.location.href='/'</script>");
-                      });
-                  
-                  });
-              }
-          });
-          
-      });
+    console.log(req.address);
+
+    if(address2 != "") address = address+" "+address2;
+
+    pool.getConnection(function (err, connection)
+    {
+        if(stuorprof == 'student')
+            var strsql = "select * from Student where student_ID = ? AND student_name = ?"
+        else if(stuorprof == 'professor')
+            var strsql = "select * from Professor where professor_ID = ? AND professor_name = ?"
+    
+        connection.query(strsql, datas, function(err, result){
+        
+            if(err) console.error(err);
+                
+            if(result != ""){	// 이메일이 이미 존재하는  경우
+                res.send("<script>alert('이메일이 이미 존재합니다.');history.back();</script>");
+                connection.release();
+            }
+            else{
+                pool.getConnection(function (err, connection){
+                   
+                    if(stuorprof == 'student')
+                        var sql = "INSERT INTO Student(student_ID, password, student_name,phone_number, email,address) values(?,?,?,?,?,?)";
+                    else if(stuorprof == 'professor')
+                        var sql = "INSERT INTO Professor(professor_ID, password, professor_name,phone_number, email,address) values(?,?,?,?,?,?)";
+                   
+                        connection.query(sql, [ID, password, name, phone_number, email,address], function(err, result){
+                        if(err) console.error(err);
+                        res.send("<script>alert('회원가입 되었습니다.');window.location.href='/'</script>");
+                    });
+                });
+            }
+        });
+    });
   });
   
   module.exports = router;

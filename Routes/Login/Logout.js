@@ -21,7 +21,6 @@ router.get('/', function(req, res){
         
     } else {
         console.log('이미 로그아웃 되어 있음');
-        
         res.send('이미 로그아웃 되어 있습니다.');
         
     }
