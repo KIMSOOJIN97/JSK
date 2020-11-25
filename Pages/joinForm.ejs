@@ -17,10 +17,6 @@
 	<body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
 		<div style="overflow:scroll; width:100vw; height:100vh;">
 
-	<header>
-        <nav>
-        </nav>
-	</header>
 	
 	<article class="container" id="joinForm">
 		<div class="page-header" style="color:black;">
@@ -32,8 +28,18 @@
 		<tr>
 			<td>
 				<form method="post" action="/joinForm" onsubmit="return onSubmit()" >
+					<div class="fields">   
+						<div class="field">
+						  <label style="color:white">구분</label>
+							<select name="stuorprof">
+								<option value="student">학부생</option>
+								<option value="professor">교수</option>
+							</select>
+						</div>
+					</div><br><br><br>
+					
 					<table width="100%" bgcolor="transparent" cellpadding="20" cellspacing="1" border="0">
-                        
+                       
                         <tr>
 							<td style="color:black; font-size:1.25em;" align="center">
 								<strong>ID</strong>

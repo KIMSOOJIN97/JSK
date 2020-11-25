@@ -27,20 +27,25 @@ router.get('/', function(req, res,next){
   router.post('/', function(req,res){
     
     var ID = req.body.id;
-    var passwd = req.body.password;
-    
+    var password = req.body.password;
+    var stuorprof = req.body.stuorprof || req.query.stuorprof;
+
     pool.getConnection(function (err, connection)
     {
-       var sql = "SELECT * FROM Student WHERE student_ID=?";
-       connection.query(sql, [ID], function(err, result){
+        if(stuorprof == 'student')
+            var sql = "SELECT * FROM Student WHERE student_ID=?";
+        else if(stuorprof == 'professor')
+            var sql = "select * from Professor where professor_ID = ?"
+    
+        connection.query(sql, [ID], function(err, result){
           if(err) console.error(err);
           
           console.log(result);
           if(result != ""){   // 이메일이 존재하는 경우
   
-            var DB_PW = result[0].passwd;
+            var DB_PW = result[0].password;
 
-            if(DB_PW == passwd){   // 입력한 passwd가 일치하는 경우
+            if(DB_PW == password){   // 입력한 passwd가 일치하는 경우
                     req.session.user = {
                         id:ID,
                         authorized:true
