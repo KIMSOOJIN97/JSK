@@ -1,20 +1,21 @@
 var express = require('express');
 var mysql = require('mysql');
+var config = require('../../config');
 
 var pool = mysql.createPool({
-   connectionLimit: 5,
-   host: 'localhost',
-   user: 'root',
-   database: 'jsk_db',
-    password: '1234',
+	connectionLimit: 5,
+	host: 'localhost',
+	user: 'root',
+	database: 'jsk_db',
+    password: config.db_info.password,
+    port: config.db_info.port
 });
 
 var router = express.Router();
-var classname;
 
 router.get('/', function(req, res){
 
-    classname = req.query.classname||req.body.classname;
+    var classname = req.query.classname||req.body.classname;
 
     if(req.session.user){
         pool.getConnection(function(err, connection){
