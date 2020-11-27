@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+
+</head>
+
+<body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
+
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><<%= classname %>> 교수 성적입력</h2>
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+        <table>
+            <% for(var i=0; i<rows.length; i++) { %>
+            <form method="POST" action="/ZGrade">
+                <tr>
+                    <td><%= rows[i].student_ID %></td>
+                    <td style="margin-left: 5px; margin-right: 5px;">
+                        <select name="grade" id="gradeid">
+                            <option value="4.5">A+</option>
+                            <option value="4">A</option>
+                            <option value="3.5">B+</option>
+                            <option value="3">B</option>
+                            <option value="2.5">C+</option>
+                            <option value="2">C</option>
+                            <option value="1.5">D+</option>
+                            <option value="1">D</option>
+                            <option value="0">F</option>
+                        </select>
+                    </td>
+                    <td><button class="ui button" name="classname" value="<%= classname %>,<%= rows[i].student_ID %>">입력</button></td>
+                </tr>
+            </form>
+            <% } %>
+        </table>
+
+
+    </div>
+
+</body>
+
+</html>
