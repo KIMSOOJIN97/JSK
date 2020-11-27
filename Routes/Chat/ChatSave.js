@@ -4,8 +4,17 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
+var pool = mysql.createPool({
+	connectionLimit: 5,
+	host: 'localhost',
+	user: 'root',
+	database: 'jsk_db',
+    password: 'rkdvnd52',
+    port: 3300
+});
+
 router.post('/', function(req, res){
-    console.log('Send the message.');
+    console.log('메지시전송 성공');
     
     if(req.session.user) {
 
@@ -13,23 +22,18 @@ router.post('/', function(req, res){
         var sender = req.session.user.id;
         var chatcontent = req.body.content;
         
+        pool.getConnection(function(err, connection){
+            var strsql = "insert into chatcontent (chatroom_ID, chatter, chatcontent) values (?,?,?)";
         
-        var strsql = "insert into chatcontent (room_no, chat_mem, chat_content) values ('" + roomnum + "', '" + sender + "', '" + chatcontent + "')";
+            connection.query(strsql, [roomnum, sender, chatcontent], function(err, rows) {
+                if(err) console.error(err);
+                connection.release();
+            });
 
-        var connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'rkdvnd52',
-        database: 'face_recognition'
         });
-        connection.connect();
-
-
-        connection.query(strsql, function(err, rows, fields) {
-            if (err) throw err;
-
-            connection.end();        
-        });
+    }
+    else{
+        res.redirect('/Login');
     }
 });
 
