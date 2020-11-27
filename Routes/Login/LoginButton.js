@@ -6,7 +6,7 @@ var pool = mysql.createPool({
 	connectionLimit: 5,
 	host: 'localhost',
 	user: 'root',
-	database: 'tutorial',
+	database: 'jsk_db',
 	password: '1234'
 });
 
@@ -58,11 +58,11 @@ router.get('/', function(req, res,next){
             }
          }
          else{
-             res.send("<script>alert('아이디가 존재하지 않습니다.');history.back();</script>");
+            res.send("<script>alert('아이디가 존재하지 않습니다.');history.back();</script>");
             connection.release();
          }
   
-          });
+        });
     });
     
   });
