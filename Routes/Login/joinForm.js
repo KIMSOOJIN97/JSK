@@ -7,8 +7,8 @@ var pool = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
 	database: 'jsk_db',
-    password: 'rkdvnd52',
-    port: 3300
+	password: '1234'
+
 });
 
 function leadingZeros(n, digits) {
@@ -24,7 +24,7 @@ function leadingZeros(n, digits) {
   
   /* GET home page. */
   router.get('/', function(req, res, next) {
-    res.render('joinForm', { title: 'joinForm'/*, username:req.session.username, admin:req.session.admin, sale:req.session.sale*/ });
+    res.render('joinForm', { title: 'joinForm'});
   });
 
   router.post('/', function(req,res,next){
@@ -39,7 +39,6 @@ function leadingZeros(n, digits) {
     var phone_number = req.body.phone;
 
     var datas = [ID, name];
-    
     if(address2 != "") address = address+" "+address2;
 
     pool.getConnection(function (err, connection)
