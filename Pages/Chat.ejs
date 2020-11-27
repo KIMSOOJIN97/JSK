@@ -1,58 +1,39 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html lang="ko">
+    <head>  
         <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
         <script src="semantic/semantic.js"></script>
-        <script src="https://kit.fontawesome.com/fcb4a1c19d.js" crossorigin="anonymous"></script>        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-        <script src="javascript/jquery-3.1.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
-        <meta charset="UTF-8">
-        <title>Chat 페이지</title>
-        
-        <style type="text/css">
-            a:hover{text-decoration:underline; color:black;}
-
-            .gradation {
-                background: linear-gradient( to bottom, white, #0D0922 )
-
-        </style>
-        
+        <meta charset="utf-8">
     </head>
-    <body style="background-color:#000000">
+
+    <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
         
-        <div class="gradation" style="width: 100%; height: 100px; margin-bottom: 10px;">
-            <% include header_footer/header %>
-        </div>
-        
-        <form method="post" action="/ChatUsers">
-            <div align="right" style="padding-right:30px; padding-top:20px">
-                <button class="ui icon button">
-                    <i class="plus circle icon"></i>
-                </button>
-            </div>
-        </form>
-        
-        <h2 align="center" style="color:white">Chat</h2>
-        
-        <p style="color:white">채팅방 수: <%= rows.length %> </p>
+        <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">채팅방 목록</h2>
+
+		<div style="overflow:scroll; width:100vw; height:100vh;">
+            
+            <p>채팅방 수: <%= rows.length %> </p>
             <% for(var i=0; i<rows.length; i++) { %>
                   <div style="height:70px; padding-left:10px; padding-right:10px; background-color:white; padding-top:10px; padding-bottom:10px">
                       <form method="post" action="/ChatRoom">
-                        <button class="fluid ui basic button" name="room_no" value="<%= rows[i].room_no %>" style="height:50px; color:white">
+                        <button class="fluid ui basic button" name="chatroom_ID" value="<%= rows[i].chatroom_ID %>" style="height:50px; color:white">
                           <div align="left">  
                             <i class="users icon"></i>
-                            <%= rows[i].room_name %>  (<%= rows[i].room_memnum %>)
+                            <%= rows[i].chatroomname %>  (<%= rows[i].chatroomsize %>)
                           </div>
                         </button>
                       </form>      
                   </div>
             <% } %>
-        
+            
+
+        </div>
     </body>
 </html>
-<% include header_footer/footer %>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+
+    <script>
+
+        function check(box) {
+            var O_no = box.name;
+            var subject_name = box.value;
+            var subject_division = box.id;
+
+            if (box.checked == true) {
+                $("#bb").append('<tr><td>' + O_no + '</td><td> ' + subject_name + ' </td><td>' + subject_division + '</td></tr>');
+            } else {
+                $("#bb").remove('.' + box.name);
+            }
+        }
+
+    </script>
+
+    <style>
+        td {
+            text-align: center;
+        }
+
+        td#aa {
+            text-align: left;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        th {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #subname {
+            width: 200px;
+        }
+    </style>
+
+</head>
+
+<body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
+
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">수강신청</h2>
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+        <form method="POST" action="/ClassApply">
+            <p>개설과목: <%= rows1.length %> </p>
+            <table border="1" style="float: left; margin-right: 60px;">
+                <thead>
+                    <tr>
+                        <th>과목번호</th>
+                        <th id="subname">과목이름</th>
+                        <th>학점</th>
+                        <th>분류</th>
+                        <th>정원</th>
+                        <th>선택</th>
+                    </tr>
+                </thead>
+                <% for(var i=0; i<rows1.length; i++) { %>
+                <tr>
+                    <td><%= rows1[i].O_no %></td>
+                    <td id="aa"><%= rows2[i].subject_name %></td>
+                    <td><%= rows2[i].credit %></td>
+                    <td><%= rows2[i].subject_division %></td>
+                    <td><%= rows1[i].team_project %></td>
+                    <td>
+                        &nbsp;
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="<%=rows1[i].O_no%>" value="<%= rows2[i].subject_name %>" class="<%= rows2[i].credit %>" id="<%= rows2[i].subject_division %>" onclick="check(this)">
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>과목번호</th>
+                        <th id="subname">과목이름</th>
+                        <th>분류</th>
+
+                    </tr>
+                </thead>
+                <tbody id="bb">
+
+                </tbody>
+            </table>
+            <button class="ui button">수강신청</button>
+        </form>
+    </div>
+</body>
+
+</html>

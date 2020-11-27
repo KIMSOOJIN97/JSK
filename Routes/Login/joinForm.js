@@ -8,8 +8,8 @@ var pool = mysql.createPool({
 	user: 'root',
 	database: 'jsk_db',
 	password: '1234'
-});
 
+});
 
 function leadingZeros(n, digits) {
     var zero = '';
@@ -39,15 +39,14 @@ function leadingZeros(n, digits) {
     var phone_number = req.body.phone;
 
     var datas = [ID, name];
-
     if(address2 != "") address = address+" "+address2;
 
     pool.getConnection(function (err, connection)
     {
         if(stuorprof == 'student')
-            var strsql = "select * from Student where student_ID = ? AND student_name = ?"
+            var strsql = "select * from student where student_ID = ? AND student_name = ?"
         else if(stuorprof == 'professor')
-            var strsql = "select * from Professor where professor_ID = ? AND professor_name = ?"
+            var strsql = "select * from professor where professor_ID = ? AND professor_name = ?"
     
         connection.query(strsql, datas, function(err, result){
         
@@ -61,9 +60,9 @@ function leadingZeros(n, digits) {
                 pool.getConnection(function (err, connection){
                    
                     if(stuorprof == 'student')
-                        var sql = "INSERT INTO Student(student_ID, password, student_name,phone_number, email,address) values(?,?,?,?,?,?)";
+                        var sql = "INSERT INTO student(student_ID, password, student_name,phone_number, email,address) values(?,?,?,?,?,?)";
                     else if(stuorprof == 'professor')
-                        var sql = "INSERT INTO Professor(professor_ID, password, professor_name,phone_number, email,address) values(?,?,?,?,?,?)";
+                        var sql = "INSERT INTO professor(professor_ID, password, professor_name,phone_number, email,address) values(?,?,?,?,?,?)";
                    
                         connection.query(sql, [ID, password, name, phone_number, email,address], function(err, result){
                         if(err) console.error(err);

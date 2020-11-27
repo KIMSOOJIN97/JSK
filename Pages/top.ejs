@@ -19,18 +19,20 @@
       <a class="item" href="/Board">
           <strong>성적 조회</strong>
       </a>
-      <a class="item" href="Upload">
-          <strong>장학 조회</strong>
+      <a class="item" href="/Class">
+        <strong>과목 조회</strong>
       </a>
-      <a class="item" href="Chat">
-          <strong>친구와의 채팅</strong>
+      <a class="item" href="/ClassApply">
+          <strong>수강신청하기</strong>
       </a>
-      <div class="right menu">  
+      <a class="item" href="/Friend">
+          <strong>친구</strong>
+      </a>
+      <div class="right menu">
       <script>
         var sessionuser = '<%-userid%>'
         if(sessionuser == 'No_One') {
-          document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
-
+            document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
         } else {
             document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
         }

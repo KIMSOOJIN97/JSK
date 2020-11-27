@@ -8,6 +8,7 @@ var pool = mysql.createPool({
 	user: 'root',
 	database: 'jsk_db',
 	password: '1234'
+
 });
 
 router.get('/', function(req, res,next){
@@ -40,7 +41,6 @@ router.get('/', function(req, res,next){
         connection.query(sql, [ID], function(err, result){
           if(err) console.error(err);
           
-          console.log(result);
           if(result != ""){   // 이메일이 존재하는 경우
   
             var DB_PW = result[0].password;
