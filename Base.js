@@ -16,6 +16,7 @@ var cors = require('cors');
 var config = require('./config');
 var file_loader = require('./file_loader');
 
+
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////body/////////////////////////////////////
 
@@ -24,6 +25,7 @@ var router = express.Router();
 
 app.set('port', config.server_port || 3000);
 app.use(static(path.join(__dirname, 'Pages')));
+app.use(static(path.join(__dirname, 'Pages/Professor')));
 app.use(static(path.join(__dirname, 'Sources')));
 app.use(static(path.join(__dirname, 'Uploads')));
 

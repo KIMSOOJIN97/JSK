@@ -1,30 +1,31 @@
-var http = require('http');
 var express = require('express');
-var mysql = require('mysql');
-
 var router = express.Router();
+
+var mysql = require('mysql');
+const { connect } = require('../Login/Logout');
+var pool = mysql.createPool({
+	connectionLimit: 5,
+	host: 'localhost',
+	user: 'root',
+	database: 'jsk_db',
+	password: '1234'
+});
 
 router.get('/', function(req, res){
     console.log('Board 접속');
-    
-    var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'rkdvnd52',
-    database: 'face_recognition'
-    });
-    connection.connect();
-    
-    connection.query('select * from board', function(err, rows, fields) {
-        if (err) throw err;
+    pool.getConnection(function(err,connection){
 
-        var context = {rows};
-
+        var context = {userid:req.session.user.id};
         
-        res.render('Board', context);
-        connection.end();
+            var sql ="select * from Notice"
+            
+            connection.query(sql,function(err,results,field){
+                if (err) throw err;
+                console.log(results);
+                res.render('Board', {results :results,userid:req.session.user.id});
+                connection.end();
+            })
         
-    });
+    })
 });
-
 module.exports = router;

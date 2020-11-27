@@ -2,12 +2,20 @@ var express = require('express');
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
+<<<<<<< HEAD
 	connectionLimit: 5,
 	host: 'localhost',
 	user: 'root',
 	database: 'jsk_db',
     password: 'rkdvnd52',
     port: 3300
+=======
+   connectionLimit: 5,
+   host: 'localhost',
+   user: 'root',
+   database: 'jsk_db',
+    password: '1234',
+>>>>>>> 83a79bc9fc856e1258662c303e777278cfb92f3b
 });
 
 var router = express.Router();
