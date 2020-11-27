@@ -1,18 +1,18 @@
-var http = require('http');
+var socketio = require('socket.io');
 var express = require('express');
 var mysql = require('mysql');
-var socketio = require('socket.io');
-
-var router = express.Router();
+var config = require('../../config');
 
 var pool = mysql.createPool({
 	connectionLimit: 5,
 	host: 'localhost',
 	user: 'root',
 	database: 'jsk_db',
-    password: 'rkdvnd52',
-    port: 3300
+    password: config.db_info.password,
+    port: config.db_info.port
 });
+
+var router = express.Router();
 
 router.post('/', function(req, res){
     var roomnumber = req.body.chatroom_ID;
