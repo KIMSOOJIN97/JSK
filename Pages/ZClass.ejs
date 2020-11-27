@@ -10,6 +10,26 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
     <meta charset="utf-8">
+    <style>
+        td {
+            text-align: center;
+        }
+
+        td#aa {
+            text-align: left;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        th {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #subname {
+            width: 200px;
+        }
+    </style>
 </head>
 
 <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
@@ -17,7 +37,19 @@
     <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">교수 과목조회</h2>
 
     <div style="overflow:scroll; width:100vw; height:100vh;">
-        <table>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>과목번호</th>
+                    <th id="subname">과목이름</th>
+                    <th>학점</th>
+                    <th>구분</th>
+                    <th>정원</th>
+                    <th>출석입력</th>
+                    <th>공지입력</th>
+                    <th>성적입력</th>
+                </tr>
+            </thead>
             <% for(var i=0; i<rows1.length; i++) { %>
             <tr>
                 <td><%= rows1[i].O_no %></td>
@@ -26,20 +58,17 @@
                 <td><%= rows2[i].subject_division %></td>
                 <td><%= rows1[i].team_project %></td>
                 <form method="GET" action="/ZClassAttendance">
-                    <td><button class="ui button" id="classname" name="classname" value="<%= rows1[i].O_no %>">출석</button></td>
+                    <td><button class="ui button" name="classname" value="<%= rows1[i].O_no %>">출석</button></td>
                 </form>
-                <form method="GET" action="/ZClassNotice">
-                    <td><button class="ui button" name="<%= rows1[i].O_no %>">공지사항</button></td>
+                <form method="GET" action="/ZNotice">
+                    <td><button class="ui button" name="classname" value="<%= rows1[i].O_no %>">공지사항</button></td>
+                </form>
+                <form method="GET" action="/ZGrade">
+                    <td><button class="ui button" name="classname" value="<%= rows1[i].O_no %>">성적입력</button></td>
                 </form>
             </tr>
             <% } %>
         </table>
-
-        <select>
-            <% for(var i=0; i<rows1.length; i++) { %>
-            <option value="<%= rows1[i].O_no %>"><%= rows2[i].subject_name %></option>
-            <% } %>
-        </select>
 
     </div>
 

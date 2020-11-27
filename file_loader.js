@@ -9,11 +9,11 @@ file_loader.init = function(app){
 
         if(req.session.user){
             var context = {userid:req.session.user.id}
-            res.render('Main', context);
+            res.render('Login', context);
         }
         
         var context = {userid:'No_One'};
-        res.render('Main', context);
+        res.render('Login', context);
     });
     
     var testpath = './Routes';
