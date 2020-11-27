@@ -41,7 +41,7 @@ function leadingZeros(n, digits) {
     var datas = [ID, name];
     
     if(address2 != "") address = address+" "+address2;
-
+    console.log(stuorprof);
     pool.getConnection(function (err, connection)
     {
         if(stuorprof == 'student')

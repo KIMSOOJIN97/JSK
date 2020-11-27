@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+
+</head>
+
+<body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
+
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><<%= rows2[0].subject_name %>> 공지사항</h2>
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+        <p>게시글 수: <%= rows1.length %> </p>
+
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th width="5%" align="center">#</th>
+                    <th width="40%" align="left" style="padding-left:10px">제목</th>
+                    <th width="10%" align="center">작성자</th>
+                    <th width="20%" align="center" style="text-align:center">작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<rows1.length; i++) { %>
+                <tr id="<%=rows1[i].Notice_no%>">
+                    <td><%= rows1[i].Notice_no %></td>
+                    <td>
+                        <form method="post" action="/ZNoticeContent">
+                            <button class="basic ui button" name="boardno" value="<%= rows1[i].Notice_no %>">
+                                <%= rows1[i].title %>
+                            </button>
+                        </form>
+                    </td>
+                    <td><%= rows1[i].professor_ID %></td>
+                    <td style="text-align:center"><%= rows1[i].Notice_date %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <form method="GET" action="/ZNoticeWriting">
+            <div align="right" style="padding-right:40px; padding-top:10px">
+                <button class="ui button" name="classname" value="<%=rows2[0].subject_name%>">
+                    Write Content
+                </button>
+            </div>
+        </form>
+
+    </div>
+</body>
+
+</html>

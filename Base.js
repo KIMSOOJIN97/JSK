@@ -41,6 +41,7 @@ app.set('views', __dirname + '/Pages');
 app.set('view engine', 'ejs');
 console.log('view 엔진이 ejs로 설정되었습니다.');
 
+
 app.use(cors());
 
 file_loader.init(app);

@@ -17,7 +17,7 @@ router.get('/', function(req, res){
             };
         });
         
-        res.redirect('/Main');
+        res.redirect('/Login');
         
     } else {
         console.log('이미 로그아웃 되어 있음');
