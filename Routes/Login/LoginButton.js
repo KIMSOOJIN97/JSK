@@ -7,8 +7,7 @@ var pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'jsk_db',
-    password: 'rkdvnd52',
-    port: 3300
+    password: '1234',
 });
 
 router.get('/', function (req, res, next) {
