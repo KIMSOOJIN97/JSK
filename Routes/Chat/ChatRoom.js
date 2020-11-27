@@ -5,41 +5,39 @@ var socketio = require('socket.io');
 
 var router = express.Router();
 
+var pool = mysql.createPool({
+	connectionLimit: 5,
+	host: 'localhost',
+	user: 'root',
+	database: 'jsk_db',
+    password: 'rkdvnd52',
+    port: 3300
+});
+
 router.post('/', function(req, res){
-    console.log('[ChatRoom 접속]');
-    var roomnumber = req.body.room_no;
+    var roomnumber = req.body.chatroom_ID;
+    console.log('ChatRoom 접속 ' + roomnumber);
 
     if(req.session.user) {
 
-    var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'rkdvnd52',
-    database: 'face_recognition'
-    });
-    connection.connect();
+        pool.getConnection(function(err, connection){
+            var strsql1 = 'select * from chatroom where chatroom_ID = ?';
+            var strsql2 = 'select * from chatcontent where chatroom_ID = ?';        
 
-        var strsql1 = 'select * from chatroom where room_no = ' + roomnumber;
-        var strsql2 = 'select * from chatcontent where room_no = ' + roomnumber;        
-        
-        console.log("roomnumber: " + roomnumber);
-        
-        connection.query(strsql1, function(err, rows, fields) {
-            if (err) throw err;            
 
-            connection.query(strsql2, function(err2, rows2, fields2) {
-                if (err2) throw err2;
+            connection.query(strsql1, [roomnumber], function(err, rows1) {
+                if(err) console.error(err);
                 
-                var context = {room_info:rows, content_info:rows2, own:req.session.user.id};
-
-                console.log("rows: " + rows);
-                console.log("rows2: " + rows2);
-                
-                
-                res.render('ChatRoom', context);
-                connection.end();
-                
+                connection.query(strsql2, [roomnumber], function(err2, rows2) {
+                    if(err2) console.error(err2);
+                    
+                    var context = {room_info:rows1, content_info:rows2, own:req.session.user.id};
+                    res.render('ChatRoom', context);
+                    connection.release();
+                });
             });
+
+
         });
         
     } else {

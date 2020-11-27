@@ -1,140 +1,112 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html lang="ko">
+    <head>  
         <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
         <script src="semantic/semantic.js"></script>
-        <script src="https://kit.fontawesome.com/fcb4a1c19d.js" crossorigin="anonymous"></script>        
-        
         <script src="javascript/jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-        
-        <meta charset="UTF-8">
-        <title>Chatroom 페이지</title>
-        
-        <style type="text/css">
-            a:hover{text-decoration:underline; color:black;}
 
-            .gradation {
-                background: linear-gradient( to bottom, white, #0D0922 )
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-        </style>
-        
+        <meta charset="utf-8">
+
         <script>
-            var socket;
-            $(function () {
-                
-            });
-            
-            var host = "localhost"
-            var port = "3000"
-            
-            connectToServer(host, port);
-            
-            createroom();
-            
-            
-            function connectToServer(host, port){
-                var url = 'http://' + host + ':' + port;
-                var options = {
-                    forceNew:true
-                };
-                
-                socket = io.connect(url, options);
-                
-                createRoom();
-                
-                socket.on('message', function(message){
+          var socket;
+          $(function () {
+              
+          });
+          
+          var host = "localhost"
+          var port = "3000"
+          $('#results').append('1');
 
-                    if(message.sender == '<%-own%>') {
-                        printlnRight(message.data);
-                    } else {
-                        println(message);
-                    }
-                });
-    
-            }
-            
-            function send() {                
-                var sender = '<%- own %>'
-                var recepient = '<%- room_info[0].room_no %>'
-                var data = $('#dataInput').val();
+          connectToServer(host, port);          
 
-                if(data) {    
-                    var message = {
-                        sender:sender,
-                        recepient:recepient,
-                        command:'groupchat',
-                        type:'text',
-                        data:data
-                    };
+          function connectToServer(host, port){
+              var url = 'http://' + host + ':' + port;
+              var options = {
+                  forceNew:true
+              };
 
-                    socket.emit('message', message);
-                }
-            }
-            
-            function createRoom() {
-                var roomId = '<%- room_info[0].room_no %>'
-                var roomName = '<%- room_info[0].room_no %>'
-                var id = '<%- room_info[0].room_no %>'
-                
-                var output = {
-                    command:'create',
-                    roomId:roomId,
-                    roomName:roomName,
-                    roomOwner:id
-                };
-                
-                socket.emit('room', output);  
-            }
-            
-            function printlnRight(data) {
-                $('#results').append('<div align="right" style="padding-bottom:5px"><div class="ui right pointing basic label">' + data + '</div></div>');
-            }
-            function println(data) {
-                $('#results').append('<div style="padding-bottom:5px"><div class="ui basic label"><i class="paper plane outline icon"></i>' + data.sender + '</div><div class="ui left pointing label">' + data.data + '</div></div>');
-            }
-            
-        </script>
+              socket = io.connect(url, options);
+              $('#results').append('2');
+              
+              createRoom();
+              
+              socket.on('message', function(message){
+
+                  if(message.sender == '<%-own%>') {
+                      printlnRight(message.data);
+                  } else {
+                      println(message);
+                  }
+              });
+  
+          }
+          
+          function send() {                
+              var sender = '<%- own %>'
+              var recepient = '<%- room_info[0].chatroom_ID %>'
+              var data = $('#dataInput').val();
+
+              if(data) {    
+                  var message = {
+                      sender:sender,
+                      recepient:recepient,
+                      command:'groupchat',
+                      type:'text',
+                      data:data
+                  };
+
+                  socket.emit('message', message);
+              }
+          }
+          
+          function createRoom() {
+              var roomId = '<%- room_info[0].chatroom_ID %>'
+              var roomName = '<%- room_info[0].chatroom_ID %>'
+              var id = '<%- room_info[0].chatroom_ID %>'
+              $('#results').append('3');
+
+              var output = {
+                  command:'create',
+                  roomId:roomId,
+                  roomName:roomName,
+                  roomOwner:id
+              };
+              
+              socket.emit('room', output);  
+          }
+          
+          function printlnRight(data) {
+              $('#results').append('<div align="right" style="padding-bottom:5px"><div class="ui right pointing basic label">' + data + '</div></div>');
+          }
+          function println(data) {
+              $('#results').append('<div style="padding-bottom:5px"><div class="ui basic label"><i class="paper plane outline icon"></i>' + data.sender + '</div><div class="ui left pointing label">' + data.data + '</div></div>');
+          }
+          
+      </script>
 
     </head>
-    <body style="background-color:#000000">
+
+    <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
         
-        <div class="gradation" style="width: 100%; height: 100px; margin-bottom: 10px;">
-            <% include header_footer/header %>
-        </div>
-                
-        <table align="right">
-            <tr>
-                <td><form method="" action="/Chat">
-                    <div align="right" style="padding-right:30px; padding-top:20px">
-                        <button class="ui icon button">
-                            <i class="comment icon"></i>
-                        </button>
-                    </div>
-                    </form></td>
-                <td><form method="" action="/Main">
-                    <div align="right" style="padding-right:30px; padding-top:20px">
-                        <button class="ui icon button">
-                          <i class="home icon"></i>
-                        </button>
-                    </div>
-                    </form></td>
-            </tr>
-        </table>
+        <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">채팅하기</h2>
         
-        <br><br>
-        <h2 align="center" style="color:white">ChatRoom - [<%=room_info[0].room_name%>]</h2>
+        <h2 text-align="center">ChatRoom - [<%=room_info[0].chatroomname%>]</h2>
         <br>
         <div>
-            <h5>메시지 전송</h5>
-            <div align="right" style="padding-right:20px; color:white">접속자: <%= own %> </div>
+
+            <div align="right" style="padding-right:20px;">접속자: <%= own %> </div>
             <form method="post" action="/ChatSave">
                 <div class="ui action input">
                     <input type="text" id="dataInput" name="content">
-                    <button class="ui button" value="<%= room_info[0].room_no %>" name="roomno" onclick="send()">Send</button>
+                    <button class="ui button" value="<%= room_info[0].chatroom_ID %>" name="roomno" onclick="send()">Send</button>
                 </div>
             </form>          
         </div>
@@ -142,38 +114,16 @@
         
         <% if(content_info) { %>
             <% for(var i=0; i<content_info.length; i++) { %>
-                <% if(content_info[i].chat_mem == own) { %>
-                    <div align="right" style="padding-bottom:5px"><div class="ui right pointing basic label"><%= content_info[i].chat_content %></div></div>
+                <% if(content_info[i].chatter == own) { %>
+                    <div align="right" style="padding-bottom:5px"><div class="ui right pointing basic label"><%= content_info[i].chatcontent %></div></div>
                 <% } else { %>
-                    <div style="padding-bottom:5px"><div class="ui basic label" ><i class="paper plane outline icon"></i><%= content_info[i].chat_mem %></div><div class="ui left pointing label"><%= content_info[i].chat_content %></div></div>
+                    <div style="padding-bottom:5px"><div class="ui basic label" ><i class="paper plane outline icon"></i><%= content_info[i].chatter %></div><div class="ui left pointing label"><%= content_info[i].chatcontent %></div></div>
                 <% } %>
             <% } %>
         <% } %>
         
         
         <div id="results"></div>
-                
+
     </body>
 </html>
-
-<% include header_footer/footer %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

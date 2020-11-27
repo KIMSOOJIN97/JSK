@@ -6,8 +6,9 @@ var pool = mysql.createPool({
 	connectionLimit: 5,
 	host: 'localhost',
 	user: 'root',
-	database: 'tutorial',
-	password: '1234'
+	database: 'jsk_db',
+    password: 'rkdvnd52',
+    port: 3300
 });
 
 router.get('/', function(req, res,next){
@@ -40,7 +41,6 @@ router.get('/', function(req, res,next){
         connection.query(sql, [ID], function(err, result){
           if(err) console.error(err);
           
-          console.log(result);
           if(result != ""){   // 이메일이 존재하는 경우
   
             var DB_PW = result[0].password;
@@ -58,7 +58,7 @@ router.get('/', function(req, res,next){
             }
          }
          else{
-             res.send("<script>alert('아이디가 존재하지 않습니다.');history.back();</script>");
+            res.send("<script>alert('아이디가 존재하지 않습니다.');history.back();</script>");
             connection.release();
          }
   
