@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
     <meta charset="utf-8">
-
 </head>
 
 <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
@@ -26,10 +25,10 @@
                 <td><%= rows2[i].credit %></td>
                 <td><%= rows2[i].subject_division %></td>
                 <td><%= rows1[i].team_project %></td>
-                <form method="POST" action="/ZClassAttend">
-                    <td><button class="ui button" name="<%= rows1[i].O_no %>">출석</button></td>
+                <form method="GET" action="/ZClassAttendance">
+                    <td><button class="ui button" id="classname" name="classname" value="<%= rows1[i].O_no %>">출석</button></td>
                 </form>
-                <form method="POST" action="/ZClassNotice">
+                <form method="GET" action="/ZClassNotice">
                     <td><button class="ui button" name="<%= rows1[i].O_no %>">공지사항</button></td>
                 </form>
             </tr>

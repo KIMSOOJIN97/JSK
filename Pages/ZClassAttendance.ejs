@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
+        <script src="semantic/semantic.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+        <meta charset="utf-8">
+        <script>
+
+            function check(box) {
+                var O_no = box.name;
+                var subject_name = box.value;
+                var subject_division = box.id;
+    
+                if (box.checked == true) {
+                    $("#bb").append('<tr class="' + box.name + '"><td>' + O_no + '</td><td> ' + subject_name + ' </td><td>' + subject_division + '</td></tr>');
+                } else {
+                    $('tr.' + box.name).remove();
+                }
+            }
+    
+        </script>
+        
+    </head>
+
+    <body style="background-color: white">     
+    
+    <form method="POST" action="/ZClassAttendance">
+        <div class="fields" style="text-align: center;">   
+            <div class="field">
+              <label>주차</label>
+                <select name="week">
+                    <option value="1">1주차</option>
+                    <option value="2">2주차</option>
+                    <option value="3">3주차</option>
+                    <option value="4">4주차</option>
+                    <option value="5">5주차</option>
+                    <option value="6">6주차</option>
+                    <option value="7">7주차</option>
+                    <option value="8">8주차</option>
+                    <option value="9">9주차</option>
+                    <option value="10">10주차</option>
+                    <option value="11">11주차</option>
+                    <option value="12">12주차</option>
+                    <option value="13">13주차</option>
+                    <option value="14">14주차</option>
+                    <option value="15">15주차</option>
+                    <option value="16">16주차</option>
+                </select>
+            </div>
+        </div>
+        <br><br><br>
+
+        <div
+      <table class="ui celled table" width="80px">
+        <thead> 
+          <tr>
+            <th width="5%" align="center">No</th>
+            <th width="20%" align="center" style="text-align:center">학번</th>
+            <th width="20%" align="center" style="text-align:center">이름</th>
+            <th width="5%" align="center">출석</th>
+            <th width="5%" align="center">지각</th>
+            <th width="5%" align="center">결석</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0; i<rows1.length; i++) { %>
+                <tr>
+                    <td><%=i+1%></td>
+                    <td id="aa"><%= rows1[i].student_ID %></td>
+                    <td><%= rows1[i].student_name %></td>
+                    <td>
+                        &nbsp;
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="<%=rows1[i].student_ID%>" value="출석"  onclick="check(this)">
+                            <label></label>
+                        </div>
+                    </td>
+                    <td>
+                        &nbsp;
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="<%=rows1[i].student_ID%>" value="지각" onclick="check(this)">
+                            <label></label>
+                        </div>
+                    </td>
+                    <td>
+                        &nbsp;
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="<%=rows1[i].student_ID%>" value="결석" onclick="check(this)">
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+      </table>
+      <button class="ui button">저장하기</button>
+
+    </form>
+</body>
+</html>

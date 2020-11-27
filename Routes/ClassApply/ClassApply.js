@@ -21,14 +21,11 @@ router.get('/', function(req, res){
             var strsql = "select * from opening_subject";
             connection.query(strsql, function(err, rows1){
                 if(err) console.error(err);
-            
-                console.log(rows1);
-
+                
                 strsql = "select * from subject where S_no in (select S_no from opening_subject)"
                 connection.query(strsql, function(err, rows2){
 
                 var context = {rows1:rows1, rows2:rows2};
-                console.log(rows2);
 
                 res.render('ClassApply', context);
                 connection.release();
@@ -68,7 +65,6 @@ router.post('/', function(req, res){
                 }
                 else{
                     strsql = "insert into course_registration (student_ID, O_no, personnel) values (?,?,?)";
-            
                     for(var i=0; i<subject.length; i++){
                         connection.query(strsql, [req.session.user.id, subject[i], 1], function(err, rows) {
                             if(err) console.error(err);

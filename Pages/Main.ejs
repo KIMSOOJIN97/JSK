@@ -1,23 +1,579 @@
 <!DOCTYPE html>
 <html>
-    <head>  
-        <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
-        <script
-          src="https://code.jquery.com/jquery-3.1.1.min.js"
-          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-          crossorigin="anonymous"></script>
-        <script src="semantic/semantic.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-        <meta charset="utf-8">
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-        
-    </head>
+    <meta charset="utf-8">
+    <style>
+        @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    </style>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./type8.css">
 
-    <body style="background-color: white">
-        <td><!--상단 메뉴 인클루드--><% include ./top.ejs %></td>
+    <style>
+        table.type11 {
+            border-collapse: separate;
+            border-spacing: 1px;
+            text-align: center;
+            line-height: 1.5;
+            margin: 20px 10px;
+        }
 
-        <td><!--시간표 인클루드--><% include ./timetable.ejs %></td>
-    </body>
-</html>
+        table.type11 th {
+            width: 155px;
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #fff;
+            background: #ce4869;
+        }
+
+        table.type11 td {
+            width: 155px;
+            padding: 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+            background: #eee;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: white">
+    <td>
+        <!--상단 메뉴 인클루드--><% include ./top.ejs %></td>
+
+    <table class="type11">
+        <caption style="padding:20 0 30 0">2학기 주재훈의 시간표</caption>
+
+        <thead>
+            <tr>
+                <th>시간</th>
+                <th>월요일</th>
+                <th>화요일</th>
+                <th>수요일</th>
+                <th>목요일</th>
+                <th>금요일</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% var d1_cnt = 0; %>
+            <% var d2_cnt = 0; %>
+            <% var d3_cnt = 0; %>
+            <% var d4_cnt = 0; %>
+            <% var d5_cnt = 0; %>
+            <% var sub_array = new Array(); %>
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                <td>1교시</td>
+                <% for(var i = 0; i < result.length; i++){ %>
+
+                <% if(result[i][0].day_of_week == '월요일'){ %>
+                <% if(result[i][0].start_time == '0900'){ %>
+                <% d1_cnt++ %>
+                <% if(d1_cnt < 2){ %>
+                <% sub_array[0] = result[i][0].subject_name%>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <% if(result[i][0].day_of_week == '화요일'){ %>
+                <% if(result[i][0].start_time == '0900'){ %>
+                <% d2_cnt++ %>
+                <% if(d2_cnt < 2){ %>
+                <% sub_array[1] = result[i][0].subject_name%>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <% if(result[i][0].day_of_week == '수요일'){ %>
+                <% if(result[i][0].start_time == '0900'){ %>
+                <% d3_cnt++ %>
+                <% if(d3_cnt < 2){ %>
+                <% sub_array[2] = result[i][0].subject_name%>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <% if(result[i][0].day_of_week == '목요일'){ %>
+                <% if(result[i][0].start_time == '0900'){ %>
+                <% d4_cnt++ %>
+                <% if(d4_cnt < 2){ %>
+                <% sub_array[3] = result[i][0].subject_name%>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <% if(result[i][0].day_of_week == '금요일'){ %>
+                <% if(result[i][0].start_time == '0900'){ %>
+                <% d5_cnt++ %>
+                <% if(d5_cnt < 2){ %>
+                <% sub_array[4] = result[i][0].subject_name%>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <% } %>
+
+                <% if(d1_cnt == 1){ %>
+                <td><%= sub_array[0]%></td>
+                <% }else{ %>
+                <td>&nbsp</td>
+                <% } %>
+                <% if(d2_cnt == 1){ %>
+                <td><%= sub_array[1]%></td>
+                <% }else{ %>
+                <td>&nbsp</td>
+                <% } %>
+                <% if(d3_cnt == 1){ %>
+                <td><%= sub_array[2]%></td>
+                <% }else{ %>
+                <td>&nbsp</td>
+                <% } %>
+                <% if(d4_cnt == 1){ %>
+                <td><%= sub_array[3]%></td>
+                <% }else{ %>
+                <td>&nbsp</td>
+                <% } %>
+                <% if(d5_cnt == 1){ %>
+                <td><%= sub_array[4]%></td>
+                <% }else{ %>
+                <td>&nbsp</td>
+                <% } %>
+
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+            <% var sub_array = []; %>
+
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                    <td>2교시</td>
+                    <% for(var i = 0; i < result.length; i++){ %>
+    
+                    <% if(result[i][0].day_of_week == '월요일'){ %>
+                    <% if(result[i][0].start_time == '1030'){ %>
+                    <% d1_cnt++ %>
+                    <% if(d1_cnt < 2){ %>
+                    <% sub_array[0] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '화요일'){ %>
+                    <% if(result[i][0].start_time == '1030'){ %>
+                    <% d2_cnt++ %>
+                    <% if(d2_cnt < 2){ %>
+                    <% sub_array[1] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '수요일'){ %>
+                    <% if(result[i][0].start_time == '1030'){ %>
+                    <% d3_cnt++ %>
+                    <% if(d3_cnt < 2){ %>
+                    <% sub_array[2] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '목요일'){ %>
+                    <% if(result[i][0].start_time == '1030'){ %>
+                    <% d4_cnt++ %>
+                    <% if(d4_cnt < 2){ %>
+                    <% sub_array[3] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '금요일'){ %>
+                    <% if(result[i][0].start_time == '1030'){ %>
+                    <% d5_cnt++ %>
+                    <% if(d5_cnt < 2){ %>
+                    <% sub_array[4] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% } %>
+    
+                    <% if(d1_cnt == 1){ %>
+                    <td><%= sub_array[0]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d2_cnt == 1){ %>
+                    <td><%= sub_array[1]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d3_cnt == 1){ %>
+                    <td><%= sub_array[2]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d4_cnt == 1){ %>
+                    <td><%= sub_array[3]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d5_cnt == 1){ %>
+                    <td><%= sub_array[4]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                    <td>3교시</td>
+                    <% for(var i = 0; i < result.length; i++){ %>
+    
+                    <% if(result[i][0].day_of_week == '월요일'){ %>
+                    <% if(result[i][0].start_time == '1200'){ %>
+                    <% d1_cnt++ %>
+                    <% if(d1_cnt < 2){ %>
+                    <% sub_array[0] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '화요일'){ %>
+                    <% if(result[i][0].start_time == '1200'){ %>
+                    <% d2_cnt++ %>
+                    <% if(d2_cnt < 2){ %>
+                    <% sub_array[1] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '수요일'){ %>
+                    <% if(result[i][0].start_time == '1200'){ %>
+                    <% d3_cnt++ %>
+                    <% if(d3_cnt < 2){ %>
+                    <% sub_array[2] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '목요일'){ %>
+                    <% if(result[i][0].start_time == '1200'){ %>
+                    <% d4_cnt++ %>
+                    <% if(d4_cnt < 2){ %>
+                    <% sub_array[3] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '금요일'){ %>
+                    <% if(result[i][0].start_time == '1200'){ %>
+                    <% d5_cnt++ %>
+                    <% if(d5_cnt < 2){ %>
+                    <% sub_array[4] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% } %>
+    
+                    <% if(d1_cnt == 1){ %>
+                    <td><%= sub_array[0]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d2_cnt == 1){ %>
+                    <td><%= sub_array[1]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d3_cnt == 1){ %>
+                    <td><%= sub_array[2]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d4_cnt == 1){ %>
+                    <td><%= sub_array[3]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d5_cnt == 1){ %>
+                    <td><%= sub_array[4]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                    <td>4교시</td>
+                    <% for(var i = 0; i < result.length; i++){ %>
+    
+                    <% if(result[i][0].day_of_week == '월요일'){ %>
+                    <% if(result[i][0].start_time == '1330'){ %>
+                    <% d1_cnt++ %>
+                    <% if(d1_cnt < 2){ %>
+                    <% sub_array[0] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '화요일'){ %>
+                    <% if(result[i][0].start_time == '1330'){ %>
+                    <% d2_cnt++ %>
+                    <% if(d2_cnt < 2){ %>
+                    <% sub_array[1] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '수요일'){ %>
+                    <% if(result[i][0].start_time == '1330'){ %>
+                    <% d3_cnt++ %>
+                    <% if(d3_cnt < 2){ %>
+                    <% sub_array[2] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '목요일'){ %>
+                    <% if(result[i][0].start_time == '1330'){ %>
+                    <% d4_cnt++ %>
+                    <% if(d4_cnt < 2){ %>
+                    <% sub_array[3] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '금요일'){ %>
+                    <% if(result[i][0].start_time == '1330'){ %>
+                    <% d5_cnt++ %>
+                    <% if(d5_cnt < 2){ %>
+                    <% sub_array[4] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% } %>
+    
+                    <% if(d1_cnt == 1){ %>
+                    <td><%= sub_array[0]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d2_cnt == 1){ %>
+                    <td><%= sub_array[1]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d3_cnt == 1){ %>
+                    <td><%= sub_array[2]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d4_cnt == 1){ %>
+                    <td><%= sub_array[3]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d5_cnt == 1){ %>
+                    <td><%= sub_array[4]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                    <td>5교시</td>
+                    <% for(var i = 0; i < result.length; i++){ %>
+    
+                    <% if(result[i][0].day_of_week == '월요일'){ %>
+                    <% if(result[i][0].start_time == '1500'){ %>
+                    <% d1_cnt++ %>
+                    <% if(d1_cnt < 2){ %>
+                    <% sub_array[0] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '화요일'){ %>
+                    <% if(result[i][0].start_time == '1500'){ %>
+                    <% d2_cnt++ %>
+                    <% if(d2_cnt < 2){ %>
+                    <% sub_array[1] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '수요일'){ %>
+                    <% if(result[i][0].start_time == '1500'){ %>
+                    <% d3_cnt++ %>
+                    <% if(d3_cnt < 2){ %>
+                    <% sub_array[2] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '목요일'){ %>
+                    <% if(result[i][0].start_time == '1500'){ %>
+                    <% d4_cnt++ %>
+                    <% if(d4_cnt < 2){ %>
+                    <% sub_array[3] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '금요일'){ %>
+                    <% if(result[i][0].start_time == '1500'){ %>
+                    <% d5_cnt++ %>
+                    <% if(d5_cnt < 2){ %>
+                    <% sub_array[4] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% } %>
+    
+                    <% if(d1_cnt == 1){ %>
+                    <td><%= sub_array[0]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d2_cnt == 1){ %>
+                    <td><%= sub_array[1]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d3_cnt == 1){ %>
+                    <td><%= sub_array[2]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d4_cnt == 1){ %>
+                    <td><%= sub_array[3]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d5_cnt == 1){ %>
+                    <td><%= sub_array[4]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+
+            <tr>
+                <!-- 색 바꾸기:<td bgcolor=yellow> -->
+                    <td>6교시</td>
+                    <% for(var i = 0; i < result.length; i++){ %>
+    
+                    <% if(result[i][0].day_of_week == '월요일'){ %>
+                    <% if(result[i][0].start_time == '1630'){ %>
+                    <% d1_cnt++ %>
+                    <% if(d1_cnt < 2){ %>
+                    <% sub_array[0] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '화요일'){ %>
+                    <% if(result[i][0].start_time == '1630'){ %>
+                    <% d2_cnt++ %>
+                    <% if(d2_cnt < 2){ %>
+                    <% sub_array[1] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '수요일'){ %>
+                    <% if(result[i][0].start_time == '1630'){ %>
+                    <% d3_cnt++ %>
+                    <% if(d3_cnt < 2){ %>
+                    <% sub_array[2] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '목요일'){ %>
+                    <% if(result[i][0].start_time == '1630'){ %>
+                    <% d4_cnt++ %>
+                    <% if(d4_cnt < 2){ %>
+                    <% sub_array[3] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% if(result[i][0].day_of_week == '금요일'){ %>
+                    <% if(result[i][0].start_time == '1630'){ %>
+                    <% d5_cnt++ %>
+                    <% if(d5_cnt < 2){ %>
+                    <% sub_array[4] = result[i][0].subject_name%>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+    
+                    <% } %>
+    
+                    <% if(d1_cnt == 1){ %>
+                    <td><%= sub_array[0]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d2_cnt == 1){ %>
+                    <td><%= sub_array[1]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d3_cnt == 1){ %>
+                    <td><%= sub_array[2]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d4_cnt == 1){ %>
+                    <td><%= sub_array[3]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+                    <% if(d5_cnt == 1){ %>
+                    <td><%= sub_array[4]%></td>
+                    <% }else{ %>
+                    <td>&nbsp</td>
+                    <% } %>
+            </tr>
+            <% d1_cnt = 0; %>
+            <% d2_cnt = 0; %>
+            <% d3_cnt = 0; %>
+            <% d4_cnt = 0; %>
+            <% d5_cnt = 0; %>
+        </tbody>
+</body>
