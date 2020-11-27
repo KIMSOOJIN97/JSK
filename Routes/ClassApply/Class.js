@@ -6,7 +6,8 @@ var pool = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
 	database: 'jsk_db',
-    password: '1234',
+    password: 'rkdvnd52',
+    port: 3300
 });
 
 var router = express.Router();
