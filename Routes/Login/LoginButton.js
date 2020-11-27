@@ -50,7 +50,11 @@ router.get('/', function(req, res,next){
                         id:ID,
                         authorized:true
                     };
-                res.redirect('/Main');
+
+                if(stuorprof == 'student')
+                    res.redirect('/Main');
+                else if(stuorprof == 'professor')
+                    res.redirect('/ZMain');
             }
             else{
                    res.send("<script>alert('패스워드가 일치하지 않습니다.');history.back();</script>");

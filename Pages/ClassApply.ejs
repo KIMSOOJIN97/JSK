@@ -19,9 +19,9 @@
             var subject_division = box.id;
 
             if (box.checked == true) {
-                $("#bb").append('<tr><td>' + O_no + '</td><td> ' + subject_name + ' </td><td>' + subject_division + '</td></tr>');
+                $("#bb").append('<tr class="' + box.name + '"><td>' + O_no + '</td><td> ' + subject_name + ' </td><td>' + subject_division + '</td></tr>');
             } else {
-                $("#bb").remove('.' + box.name);
+                $('tr.' + box.name).remove();
             }
         }
 

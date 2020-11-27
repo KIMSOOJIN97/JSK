@@ -6,8 +6,7 @@ var pool = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
 	database: 'jsk_db',
-    password: 'rkdvnd52',
-    port: 3300
+    password: '1234',
 });
 
 var router = express.Router();
@@ -23,10 +22,13 @@ router.get('/', function(req, res){
             connection.query(strsql, function(err, rows1){
                 if(err) console.error(err);
             
+                console.log(rows1);
+
                 strsql = "select * from subject where S_no in (select S_no from opening_subject)"
                 connection.query(strsql, function(err, rows2){
 
                 var context = {rows1:rows1, rows2:rows2};
+                console.log(rows2);
 
                 res.render('ClassApply', context);
                 connection.release();
