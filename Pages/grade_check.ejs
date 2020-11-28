@@ -49,8 +49,13 @@
     <td>
         <!--상단 메뉴 인클루드--><% include ./top.ejs %></td>
 
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
     <table class="type11">
-        <caption style="padding:20 0 30 0">주재훈의 성적표</caption>
+        <caption style="padding:20 0 30 0"><%= rows2[0].student_name %>의 성적표</caption>
+        <caption style="padding:20 0 30 0">&nbsp</caption>
+
+        <caption style="padding:20 0 30 0">2020학년도 2학기</caption>
 
         <thead>
             <tr>
@@ -64,49 +69,670 @@
 
         <tbody>
             <% for(var i = 0; i < rows1.length; i++){ %>
-                <% if(rows1[i].O_no <= 30){ %>
-                    <tr>
-                        <td><%= rows1[i].subject_name %></td>
-                        <td><%= rows1[i].Dep_name %></td>
-                        <td><%= rows1[i].subject_division %></td>
-                        <td><%= rows1[i].credit %></td>
-                        <td><%= rows1[i].grade %></td>
-                    </tr>
-                <% }else if(31<= rows1[i].O_no <= 60){ %>
-                    <tr>
-                        <td><%= rows1[i].subject_name %></td>
-                        <td><%= rows1[i].Dep_name %></td>
-                        <td><%= rows1[i].subject_division %></td>
-                        <td><%= rows1[i].credit %></td>
-                        <td><%= rows1[i].grade %></td>
-                    </tr>
-                    <% } %>
+            <% if(rows1[i].O_no < 30){ %>
+            <tr>
+                <td><%= rows1[i].subject_name %></td>
+                <td><%= rows1[i].Dep_name %></td>
+                <td><%= rows1[i].subject_division %></td>
+                <td><%= rows1[i].credit %></td>
+                <td><%= rows1[i].grade %></td>
+            </tr>
+            <% } %>
             <% } %>
         </tbody>
 
+        <% var graph_data = []; %>
+
+        <% var real_total_credit = 0; %>
+        <% var real_total_m_credit = 0; %>
         <% var total_credit = 0; %>
+        <% var total_m_credit = 0; %>
         <% for(var i = 0; i < rows1.length; i++){ %>
-            <% total_credit += rows1[i].credit %>
+        <% if(rows1[i].O_no < 30){ %>
+        <% total_credit += rows1[i].credit %>
+        <% if(rows1[i].subject_division == '전'){ %>
+        <% total_m_credit += rows1[i].credit %>
         <% } %>
-        
+        <% } %>
+        <% } %>
+
+        <% var real_total_grade = 0; %>
+        <% var real_total_m_grade = 0; %>
         <% var total_grade = 0; %>
+        <% var total_m_grade = 0; %>
         <% for(var i = 0; i < rows1.length; i++){ %>
-                <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+        <% if(rows1[i].O_no < 30){ %>
+        <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+        <% if(rows1[i].subject_division == '전'){ %>
+        <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
         <% } %>
+        <% } %>
+        <% } %>
+        <% real_total_credit += total_credit %>
+        <% real_total_grade += total_grade %>
+        <% real_total_m_credit += total_m_credit %>
+        <% real_total_m_grade += total_m_grade %>
         <% total_grade /= total_credit %>
+        <% total_m_grade /= total_m_credit %>
 
         <tfoot>
             <tr>
-               <th class="empty" colspan="2"></th>
-               <th>전체 평점</th>
-               <th>전공 평점</th>
-               <th>취득 학점</th>
+                <th class="empty" colspan="2"></th>
+                <th>전체 평점</th>
+                <th>전공 평점</th>
+                <th>취득 학점</th>
             </tr>
             <tr>
-               <th class="empty" colspan="2"></th>
-               <th><%= total_credit %></th>
-               <th>0</th>
-               <th><%= (total_grade).toFixed(2) %></th>
+                <th class="empty" colspan="2"></th>
+                <th><%= (total_grade).toFixed(2) %></th>
+                <th><%= (total_m_grade).toFixed(2) %></th>
+                <th><%= total_credit %></th>
+                <% graph_data[0] = (total_grade).toFixed(2)%>
+                <% graph_data[1] = (total_m_grade).toFixed(2)%>
             </tr>
-         </tfoot>
+        </tfoot>
+
+
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2020학년도 1학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(30 <= rows1[i].O_no && rows1[i].O_no < 60){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(30 <= rows1[i].O_no && rows1[i].O_no < 60){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(30 <= rows1[i].O_no && rows1[i].O_no < 60){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[2] = (total_grade).toFixed(2)%>
+                    <% graph_data[3] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2019학년도 2학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(60 <= rows1[i].O_no && rows1[i].O_no < 90){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(60 <= rows1[i].O_no && rows1[i].O_no < 90){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(60 <= rows1[i].O_no && rows1[i].O_no < 90){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[4] = (total_grade).toFixed(2)%>
+                    <% graph_data[5] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2019학년도 1학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(90 <= rows1[i].O_no && rows1[i].O_no < 120){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(90 <= rows1[i].O_no && rows1[i].O_no < 120){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(90 <= rows1[i].O_no && rows1[i].O_no < 120){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[6] = (total_grade).toFixed(2)%>
+                    <% graph_data[7] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2018학년도 2학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(120 <= rows1[i].O_no && rows1[i].O_no < 150){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(120 <= rows1[i].O_no && rows1[i].O_no < 150){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(120 <= rows1[i].O_no && rows1[i].O_no < 150){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[8] = (total_grade).toFixed(2)%>
+                    <% graph_data[9] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2018학년도 1학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(150 <= rows1[i].O_no && rows1[i].O_no < 180){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(150 <= rows1[i].O_no && rows1[i].O_no < 180){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(150 <= rows1[i].O_no && rows1[i].O_no < 180){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[10] = (total_grade).toFixed(2)%>
+                    <% graph_data[11] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2017학년도 2학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(180 <= rows1[i].O_no && rows1[i].O_no < 210){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(180 <= rows1[i].O_no && rows1[i].O_no < 210){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(180 <= rows1[i].O_no && rows1[i].O_no < 210){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[12] = (total_grade).toFixed(2)%>
+                    <% graph_data[13] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+
+        <table class="type11">
+            <caption style="padding:20 0 30 0">&nbsp</caption>
+            <caption style="padding:20 0 30 0">2017학년도 1학기</caption>
+
+            <thead>
+                <tr>
+                    <th>과목명</th>
+                    <th>개설학과</th>
+                    <th>이수구분</th>
+                    <th>학점</th>
+                    <th>성적</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(210 <= rows1[i].O_no && rows1[i].O_no < 240){ %>
+                <tr>
+                    <td><%= rows1[i].subject_name %></td>
+                    <td><%= rows1[i].Dep_name %></td>
+                    <td><%= rows1[i].subject_division %></td>
+                    <td><%= rows1[i].credit %></td>
+                    <td><%= rows1[i].grade %></td>
+                </tr>
+                <% } %>
+                <% } %>
+            </tbody>
+
+            <% total_credit = 0; %>
+            <% total_m_credit = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(210 <= rows1[i].O_no && rows1[i].O_no < 240){ %>
+            <% total_credit += rows1[i].credit %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_credit += rows1[i].credit %>
+            <% } %>
+            <% } %>
+            <% } %>
+
+            <% total_grade = 0; %>
+            <% total_m_grade = 0; %>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+            <% if(210 <= rows1[i].O_no && rows1[i].O_no < 240){ %>
+            <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% if(rows1[i].subject_division == '전'){ %>
+            <% total_m_grade += (rows1[i].grade * rows1[i].credit) %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% real_total_credit += total_credit %>
+            <% real_total_grade += total_grade %>
+            <% real_total_m_credit += total_m_credit %>
+            <% real_total_m_grade += total_m_grade %>
+            <% total_grade /= total_credit %>
+            <% total_m_grade /= total_m_credit %>
+
+            <tfoot>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th>전체 평점</th>
+                    <th>전공 평점</th>
+                    <th>취득 학점</th>
+                </tr>
+                <tr>
+                    <th class="empty" colspan="2"></th>
+                    <th><%= (total_grade).toFixed(2) %></th>
+                    <th><%= (total_m_grade).toFixed(2) %></th>
+                    <th><%= total_credit %></th>
+                    <% graph_data[14] = (total_grade).toFixed(2)%>
+                    <% graph_data[15] = (total_m_grade).toFixed(2)%>
+                </tr>
+            </tfoot>
+
+            
+            <table class="type11">
+                <caption style="padding:20 0 30 0">&nbsp</caption>
+                <caption style="padding:20 0 30 0">종합 성적</caption>
+
+                <thead>
+                    <tr>
+                        <th>신청 학점</th>
+                        <th>종합 평량평균</th>
+                        <th>전공 평량평균</th>
+                    </tr>
+                </thead>
+                <% real_total_grade /= real_total_credit %>
+                <% real_total_m_grade /= real_total_m_credit %>
+                <tbody>
+                    <tr>
+                        <td><%= real_total_credit %></td>
+                        <td><%= (real_total_grade).toFixed(2) %> / 4.5></td>
+                        <td><%= (real_total_m_grade).toFixed(2) %> / 4.5</td>
+                    </tr>
+                </tbody>
+
+
+                <% var text1 = graph_data[0]+""%>
+                <% var text2 = graph_data[1]+""%>
+                <% var text3 = graph_data[2]+""%>
+                <% var text4 = graph_data[3]+""%>
+
+                <% var text5 = graph_data[4]+""%>
+                <% var text6 = graph_data[5]+""%>
+                <% var text7 = graph_data[6]+""%>
+                <% var text8 = graph_data[7]+""%>
+
+                <% var text9 = graph_data[8]+""%>
+                <% var text10 = graph_data[9]+""%>
+                <% var text11 = graph_data[10]+""%>
+                <% var text12 = graph_data[11]+""%>
+
+                <% var text13 = graph_data[12]+""%>
+                <% var text14 = graph_data[13]+""%>
+                <% var text15 = graph_data[14]+""%>
+                <% var text16 = graph_data[15]+""%>
+
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script type="text/javascript">
+                    google.load("visualization", "1", { packages: ["corechart"] });
+                    google.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                        var num1 = "<%=text1%>";
+                        var num2 = "<%=text2%>";
+                        var num3 = "<%=text3%>";
+                        var num4 = "<%=text4%>";
+                        var num5 = "<%=text5%>";
+                        var num6 = "<%=text6%>";
+                        var num7 = "<%=text7%>";
+                        var num8 = "<%=text8%>";
+                        var num9 = "<%=text9%>";
+                        var num10 = "<%=text10%>";
+                        var num11 = "<%=text11%>";
+                        var num12 = "<%=text12%>";
+                        var num13 = "<%=text13%>";
+                        var num14 = "<%=text14%>";
+                        var num15 = "<%=text15%>";
+                        var num16 = "<%=text16%>";
+                        
+                        var data = google.visualization.arrayToDataTable([
+                            ['Semester', 'Total', 'Major'],
+                            ['2017년도 1학기', Number(num1), Number(num2)],
+                            ['2017년도 2학기', Number(num3), Number(num4)],
+                            ['2018년도 1학기', Number(num5), Number(num6)],
+                            ['2018년도 2학기', Number(num7), Number(num8)],
+                            ['2019년도 1학기', Number(num9), Number(num10)],
+                            ['2019년도 2학기', Number(num11), Number(num12)],
+                            ['2020년도 1학기', Number(num13), Number(num14)],
+                            ['2020년도 2학기', Number(num15), Number(num16)]
+                        ]);
+
+                        var options = {
+                            title: '성적 그래프'
+                        };
+
+                        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }
+                </script>
+
 </body>
+
+</html>

@@ -23,9 +23,14 @@ router.get('/', function (req, res) {
             connection.query(sql, req.session.user.id, function (err, rows1) {
                 if (err) console.error(err);
                 console.log(rows1);
-                var context = { userid: req.session.user.id, rows1: rows1};
-                res.render('grade_check', context);
-                connection.release();
+                var sql2 = "select student_name from student where student_ID = ?"
+                connection.query(sql2, req.session.user.id, function (err2, rows2) {
+                    if (err2) console.error(err2);
+                    console.log(rows2);
+                    var context = { userid: req.session.user.id, rows1: rows1, rows2: rows2};
+                    res.render('grade_check', context);
+                    connection.release();
+                })
             })
         })
     } else {

@@ -24,10 +24,16 @@ router.get('/', function(req, res){
             var sql = "select * from Student where student_ID in (select student_ID from course_registration WHERE O_no=?)"
             connection.query(sql, classname, function(err, rows1){
                 if(err) console.error(err);
-                var context = {userid: req.session.user.id,rows1:rows1, classname :classname };
 
-                res.render('ZClassAttendance', context);
-                connection.release();
+                strsql = "SELECT * FROM subject where S_no = ?";
+                connection.query(strsql, [classname], function(err, rows2){
+                    if(err) console.error(err);
+
+                    var context = {userid: req.session.user.id,rows1:rows1, rows2:rows2, classname:classname};
+                    res.render('ZClassAttendance', context);
+                    connection.release();
+
+                })
             })
         })
     } else {
