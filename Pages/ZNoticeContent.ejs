@@ -10,11 +10,36 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
     <meta charset="utf-8">
-
+    <style>
+        #gradation {
+          background: #b1bfca;
+        }
+      </style>
+      
+      <title>광운대학교</title>
 </head>
 
 <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
-
+    <div class="ui secandary menu" style="height: 70px;" id="gradation">
+        <a class="item" href="/ZMain">
+          <strong>JSK 학사정보시스템</strong>
+        </a>
+        <a class="item" href="/ZClass">
+          <strong>과목조회</strong>
+        </a>
+        <div class="right menu">
+          <script>
+            var sessionuser = '<%-userid%>'
+            if (sessionuser == 'No_One') {
+              document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
+            } else {
+              document.write('<a class="item" href="/ZMypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+            }
+          </script>
+        </div>
+      </div>     
+    </div>
+      
     <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">공지사항</h2>
 
     <div style="overflow:scroll; width:100vw; height:100vh;">

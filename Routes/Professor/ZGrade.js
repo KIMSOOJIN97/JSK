@@ -25,7 +25,7 @@ router.get('/', function(req, res, next){
             connection.query(strsql, [classname], function(err, rows){
                 if(err) console.error(err);
 
-                var context = {rows:rows, classname:classname};
+                var context = {userid: req.session.user.id,rows:rows, classname:classname};
                 res.render('ZGrade', context);
                 connection.release();
             });

@@ -24,7 +24,7 @@ router.get('/', function(req, res){
             var sql = "select * from Student where student_ID in (select student_ID from course_registration WHERE O_no=?)"
             connection.query(sql, classname, function(err, rows1){
                 if(err) console.error(err);
-                var context = {rows1:rows1, classname :classname };
+                var context = {userid: req.session.user.id,rows1:rows1, classname :classname };
 
                 res.render('ZClassAttendance', context);
                 connection.release();

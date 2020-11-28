@@ -47,11 +47,46 @@
         #subname {
             width: 200px;
         }
-    </style>
 
+        #gradation {
+        background: #b1bfca;
+        }
+  </style>
+  
+  <title>광운대학교</title>
 </head>
 
 <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
+
+      
+      <div class="ui secandary menu" style="height: 70px;" id="gradation">
+        <a class="item" href="/Main">
+          <strong>JSK 학사정보시스템</strong>
+        </a>
+        <a class="item" href="/grade_check">
+          <strong>성적 조회</strong>
+        </a>
+        <a class="item" href="/Class">
+          <strong>과목 조회</strong>
+        </a>
+        <div class="right menu">
+          <a class="item" href="/ClassApply">
+            <strong>수강신청하기</strong>
+          </a>
+          <a class="item" href="/Friend">
+            <strong>친구</strong>
+          </a>
+          <script>
+            var sessionuser = '<%-userid%>'
+            if (sessionuser == 'No_One') {
+              document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
+            } else {
+              document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+            }
+          </script>
+        </div>     
+      </div>
+
 
     <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">수강신청</h2>
 

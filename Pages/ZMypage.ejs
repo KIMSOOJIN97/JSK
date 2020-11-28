@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+
+    <style>
+        table{
+            margin-top: 100px;
+            margin-left: 200px;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+            width:70%;
+            height:80%;
+        }
+        tr{
+            height: 50px;
+        }
+        th {
+            width : 150px;
+            font-size: 13px;
+            background-color: #eeeeee;
+            border: 1px solid #444444;
+        }
+        td{
+            border: 1px solid #444444;
+
+        }
+        input{
+            width: 500px;   
+            height: 30px;
+            border: 1px solid #444444;
+        }
+        input::placeholder {
+            color:black;
+        }
+        button{
+            margin-left: 700px;
+        }
+    </style>
+
+</head>
+
+<body style="overflow:hidden;background-color:white" style="font-size:100%;">
+
+
+<div class="ui secandary menu" style="height: 70px;background: #b1bfca;">
+    <a class="item" href="/ZMain">
+      <strong>JSK 학사정보시스템</strong>
+    </a>
+    <a class="item" href="/grade_check">
+      <strong>성적 조회</strong>
+    </a>
+    <a class="item" href="/Class">
+      <strong>과목 조회</strong>
+    </a>
+    <div class="right menu">
+      <a class="item" href="/ClassApply">
+        <strong>수강신청하기</strong>
+      </a>
+      <a class="item" href="/ZMypage">
+        <strong>친구</strong>
+      </a>
+      <script>
+        var sessionuser = '<%-userid%>'
+        if (sessionuser == 'No_One') {
+          document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
+        } else {
+          document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+        }
+      </script>
+    </div>
+  
+  
+  
+  </div>
+<br><br>
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">개인정보조회</h2>
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+        <form method="POST" action="/ZMypage">
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>이름</th>
+                        <td><%= rows1[0].professor_name %></td>
+                        <th>학번</th>
+                        <td><%= rows1[0].professor_ID %></td>
+                    </tr>
+                    <tr>
+                        <th>소속학과</th>
+                        <td><%= rows2[0].Dep_name %></td>
+                        <th>소속대학</th>   
+                        <td><%= rows2[0].college %></td>
+             
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td colspan="3">
+                        <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="<%= rows1[0].phone_number %>"
+                        /></td>
+                    </tr>
+                    <tr> 
+                        <th>이메일</th>
+                        <td colspan="3">
+                        <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="<%= rows1[0].email %>"
+                        /></td>
+
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td colspan="3">
+                            <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            readonly="readonly"
+                            placeholder="<%= rows1[0].address %>"
+                          /> 
+                          <input
+                            type="text"
+                            id="address2"
+                            name="address2"
+                            maxlength="20"
+                          />
+                            <input
+                                type="button"
+                                onclick="execDaumPostcode()"
+                                value="우편번호 찾기"
+                                style="width : 100px"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td colspan="3">
+                            <input
+                            type="text"
+                            id="passwd"
+                            name="passwd"
+                          /></td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <br><br><br>
+            <button >수정하기</button>
+
+
+        </form>
+    </div>
+</body>
+    
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+		<script>
+			function execDaumPostcode() {
+				new daum.Postcode({
+					oncomplete: function (data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+						var fullAddr = ''; // 최종 주소 변수
+						var extraAddr = ''; // 조합형 주소 변수
+						// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							fullAddr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							fullAddr = data.jibunAddress;
+						}
+						// 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+						if (data.userSelectedType === 'R') {
+							//법정동명이 있을 경우 추가한다.
+							if (data.bname !== '') {
+								extraAddr += data.bname;
+							}
+							// 건물명이 있을 경우 추가한다.
+							if (data.buildingName !== '') {
+								extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+							}
+							// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+							fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+						}
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+						document.getElementById('address').value = fullAddr;
+						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById('address2').focus();
+					}
+				}).open();
+			}
+		</script>
