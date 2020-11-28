@@ -58,46 +58,45 @@
                     <button class="ui icon button"><i class="search icon"></i></button>
                 </div>
             </form>
-            <form action="POST" action="/Timetable" style="display: inline;">
-                <button class="ui button">시간표보기</button>
 
-                <form method="GET" action="/Chat" style="display: inline;">
-                    <button class="ui button">채팅방보기</button>
-                </form>
+            <form method="GET" action="/Chat" style="display: inline;">
+                <button class="ui button">채팅방보기</button>
+            </form>
 
-                <form method="POST" action="/Chat" style="display: inline;">
-                    <button class="ui button">채팅방추가하기</button>
+            <form method="POST" name="form" style="display: inline;">
+                <button class="ui button" onclick="javascript: form.action='/Chat';">채팅방추가하기</button>
+                <button class="ui button" onclick="javascript: form.action='/Timetable';">시간표보기</button>
 
-                    <div style="text-align: left;">
-                        <h5>친구목록</h5>
+                <div style="text-align: left;">
+                    <h5>친구목록</h5>
 
+                    <table>
+                        <tr>
+                            <div id="results">&nbsp;</div>
+                        </tr>
+                    </table>
+
+                    <hr style="color:cadetblue; background-color: black; border: thin solid;  margin-bottom: 20px;">
+
+
+                    <p>친구수: <%= rows.length %> </p>
+                    <div>
                         <table>
+                            <% for(var i=0; i<rows.length; i++) { %>
                             <tr>
-                                <div id="results">&nbsp;</div>
+                                <td>
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" name="<%= rows[i].Friend_student_ID %>"
+                                            onclick="check(this)">
+                                        <label>ID : <%= rows[i].Friend_student_ID %>
+                                        </label>
+                                    </div><br>
+                                </td>
                             </tr>
+                            <% } %>
                         </table>
-
-                        <hr style="color:cadetblue; background-color: black; border: thin solid;  margin-bottom: 20px;">
-
-
-                        <p>친구수: <%= rows.length %> </p>
-                        <div>
-                            <table>
-                                <% for(var i=0; i<rows.length; i++) { %>
-                                <tr>
-                                    <td>
-                                        <div class="ui checkbox">
-                                            <input type="checkbox" name="<%= rows[i].Friend_student_ID %>"
-                                                onclick="check(this)">
-                                            <label>ID : <%= rows[i].Friend_student_ID %></label>
-                                        </div><br>
-                                    </td>
-                                </tr>
-                                <% } %>
-                            </table>
-                        </div>
                     </div>
-                </form>
+                </div>
             </form>
 
         </div>

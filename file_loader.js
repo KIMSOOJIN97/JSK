@@ -5,7 +5,7 @@ var file_loader = {};
 file_loader.init = function(app){
     
     app.get('/', function(req, res) {
-        console.log('LKP page 접속');
+        console.log('JSK page 접속');
 
         if(req.session.user){
             var context = {userid:req.session.user.id}
