@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+    <style>
+        @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    </style>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./type8.css">
+
+    <style>
+        table.type11 {
+            border-collapse: separate;
+            border-spacing: 1px;
+            text-align: center;
+            line-height: 1.5;
+            margin: 20px 10px;
+        }
+
+        table.type11 th {
+            width: 155px;
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #fff;
+            background: #68298d;
+        }
+
+        table.type11 td {
+            width: 155px;
+            padding: 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+            background: #eee;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: white">
+    <td>
+        <!--상단 메뉴 인클루드--><% include ./top.ejs %></td>
+
+    <table class="type11">
+        <caption style="padding:20 0 30 0">주재훈의 성적표</caption>
+
+        <thead>
+            <tr>
+                <th>과목명</th>
+                <th>개설학과</th>
+                <th>이수구분</th>
+                <th>학점</th>
+                <th>성적</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% for(var i = 0; i < rows1.length; i++){ %>
+                <% if(rows1[i].O_no <= 30){ %>
+                    <tr>
+                        <td><%= rows1[i].subject_name %></td>
+                        <td><%= rows1[i].Dep_name %></td>
+                        <td><%= rows1[i].subject_division %></td>
+                        <td><%= rows1[i].credit %></td>
+                        <td><%= rows1[i].grade %></td>
+                    </tr>
+                <% }else if(31<= rows1[i].O_no <= 60){ %>
+                    <tr>
+                        <td><%= rows1[i].subject_name %></td>
+                        <td><%= rows1[i].Dep_name %></td>
+                        <td><%= rows1[i].subject_division %></td>
+                        <td><%= rows1[i].credit %></td>
+                        <td><%= rows1[i].grade %></td>
+                    </tr>
+                    <% } %>
+            <% } %>
+        </tbody>
+
+        <% var total_credit = 0; %>
+        <% for(var i = 0; i < rows1.length; i++){ %>
+            <% total_credit += rows1[i].credit %>
+        <% } %>
+        
+        <% var total_grade = 0; %>
+        <% for(var i = 0; i < rows1.length; i++){ %>
+                <% total_grade += (rows1[i].grade * rows1[i].credit) %>
+        <% } %>
+        <% total_grade /= total_credit %>
+
+        <tfoot>
+            <tr>
+               <th class="empty" colspan="2"></th>
+               <th>전체 평점</th>
+               <th>전공 평점</th>
+               <th>취득 학점</th>
+            </tr>
+            <tr>
+               <th class="empty" colspan="2"></th>
+               <th><%= total_credit %></th>
+               <th>0</th>
+               <th><%= (total_grade).toFixed(2) %></th>
+            </tr>
+         </tfoot>
+</body>
