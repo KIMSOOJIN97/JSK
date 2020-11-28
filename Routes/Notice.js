@@ -1,6 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
-var config = require('../../config');
+var config = require('../config');
 
 var pool = mysql.createPool({
 	connectionLimit: 5,
@@ -32,7 +32,7 @@ router.get('/', function(req, res){
                     if(err) console.error(err);
 
                     var context = {rows1:rows1, rows2:rows2, classname:classname};
-                    res.render('ZNotice', context);
+                    res.render('Notice', context);
                     connection.release();
 
                 })
@@ -59,8 +59,8 @@ router.post('/', function(req, res){
             connection.query(strsql, [boardinfo[0], boardinfo[1]], function(err, rows){
                 if(err) console.error(err);
 
-                var context = {rows:rows, boardno: boardno};
-                res.render('ZNoticeContent', context);
+                var context = {rows:rows, N_no:boardinfo[0], S_no:boardinfo[1]};
+                res.render('NoticeContent', context);
                 connection.release();
             });
         });    

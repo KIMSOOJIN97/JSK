@@ -1,67 +1,65 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>  
-        <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
-        <script
-          src="https://code.jquery.com/jquery-3.1.1.min.js"
-          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-          crossorigin="anonymous"></script>
-        <script src="semantic/semantic.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-        <meta charset="utf-8">
-        
-        <script>
-            
-            var socket;
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
-            $(function () {
+    <meta charset="utf-8">
 
-            });
-            
-            function check(box) {
-                if(box.checked == true) {
-                    insertbutton(box);
-                } else {
-                    removebutton(box);
-                }
-                    
-            }
-            
-            function insertbutton(box) {
-                name = box.name;
-                var bb = '<td style="padding-left:5px"><div class ="' + name + '"> <div class="ui label">' + name + '<i class="user plus icon" style="padding-left:5px"></i></div></div></td>';
+    <script>
 
-                $('#results').append(bb);
-            }
-            function removebutton(box) {
-                $("div").remove('.' + box.name);
-            }
-            
-            function println(data) {
-                $('#results').append(data);
+        var socket;
+
+        $(function () {
+
+        });
+
+        function check(box) {
+            if (box.checked == true) {
+                insertbutton(box);
+            } else {
+                removebutton(box);
             }
 
-        </script>
+        }
 
-    </head>
+        function insertbutton(box) {
+            name = box.name;
+            var bb = '<td style="padding-left:5px"><div class ="' + name + '"> <div class="ui label">' + name + '<i class="user plus icon" style="padding-left:5px"></i></div></div></td>';
 
-    <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
-        
-        <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">친구</h2>
+            $('#results').append(bb);
+        }
+        function removebutton(box) {
+            $("div").remove('.' + box.name);
+        }
 
-		<div style="overflow:scroll; width:100vw; height:100vh;">
-            <div style="text-align: right;">
-                <form method="POST" action="/Friend" style="display: inline;">
-                    <div class="ui action input">
-                        <input type="text" placeholder="친구 추가하기...." name="friendID">
-                        <button class="ui icon button"><i class="search icon"></i></button>
-                    </div>
-                </form>
-                <form action="POST" action="/Timetable" style="display: inline;">
-                    <button class="ui button">시간표보기</button>
-                </form>
+        function println(data) {
+            $('#results').append(data);
+        }
+
+    </script>
+
+</head>
+
+<body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
+
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">친구</h2>
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+        <div style="text-align: right;">
+            <form method="POST" action="/Friend" style="display: inline;">
+                <div class="ui action input" style="margin-right: 8px;">
+                    <input type="text" placeholder="친구 추가하기...." name="friendID">
+                    <button class="ui icon button"><i class="search icon"></i></button>
+                </div>
+            </form>
+            <form action="POST" action="/Timetable" style="display: inline;">
+                <button class="ui button">시간표보기</button>
 
                 <form method="GET" action="/Chat" style="display: inline;">
                     <button class="ui button">채팅방보기</button>
@@ -78,10 +76,10 @@
                                 <div id="results">&nbsp;</div>
                             </tr>
                         </table>
-            
+
                         <hr style="color:cadetblue; background-color: black; border: thin solid;  margin-bottom: 20px;">
-            
-            
+
+
                         <p>친구수: <%= rows.length %> </p>
                         <div>
                             <table>
@@ -89,8 +87,9 @@
                                 <tr>
                                     <td>
                                         <div class="ui checkbox">
-                                          <input type="checkbox" name="<%= rows[i].Friend_student_ID %>" onclick="check(this)">
-                                          <label>ID : <%= rows[i].Friend_student_ID %></label>
+                                            <input type="checkbox" name="<%= rows[i].Friend_student_ID %>"
+                                                onclick="check(this)">
+                                            <label>ID : <%= rows[i].Friend_student_ID %></label>
                                         </div><br>
                                     </td>
                                 </tr>
@@ -99,8 +98,10 @@
                         </div>
                     </div>
                 </form>
+            </form>
 
-            </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

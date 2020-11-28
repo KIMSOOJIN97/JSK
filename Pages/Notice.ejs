@@ -34,7 +34,7 @@
                 <tr id="<%=rows1[i].Notice_no%>">
                     <td><%= rows1[i].Notice_no %></td>
                     <td>
-                        <form method="POST" action="/ZNotice">
+                        <form method="POST" action="/Notice">
                             <button class="basic ui button" name="boardno" value="<%= rows1[i].Notice_no %>,<%= classname %>">
                                 <%= rows1[i].title %>
                             </button>
@@ -46,15 +46,6 @@
                 <% } %>
             </tbody>
         </table>
-
-        <form method="GET" action="/ZNoticeWriting">
-            <div align="right" style="padding-right:40px; padding-top:10px">
-                <button class="ui button" name="classname" value="<%=rows2[0].subject_name%>">
-                    Write Content
-                </button>
-            </div>
-        </form>
-
     </div>
 </body>
 

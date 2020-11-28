@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
             console.log(req.session.user.id);
             connection.query(sql, req.session.user.id, function (err, rows1) {
                 if (err) console.error(err);
-                console.log(rows1);
+
                 var len = rows1.length;
                 sql2 = "select start_time, lecture_time, day_of_week, subject_name from opening_subject natural join lecture_time natural join subject where O_no = ?";
                 for(var i =0; i < len; i++){
@@ -32,7 +32,7 @@ router.get('/', function (req, res) {
                         result[cnt++] = rows2;
                         if(cnt == len){
                             var context = { userid: req.session.user.id, rows1: rows1, result: result };
-                            console.log(result);
+
                             res.render('Main', context);
                             connection.release();
                         }

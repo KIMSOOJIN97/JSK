@@ -98,19 +98,18 @@
         
         <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">채팅하기</h2>
         
-        <h2 text-align="center">ChatRoom - [<%=room_info[0].chatroomname%>]</h2>
         <br>
         <div>
 
             <div align="right" style="padding-right:20px;">접속자: <%= own %> </div>
             <form method="post" action="/ChatSave">
-                <div class="ui action input">
+                <div class="ui action input" style="margin-left: 10px;">
                     <input type="text" id="dataInput" name="content">
                     <button class="ui button" value="<%= room_info[0].chatroom_ID %>" name="roomno" onclick="send()">Send</button>
                 </div>
             </form>          
         </div>
-        <hr>
+        <hr style="color:cadetblue; background-color: black; border: thin solid;  margin-bottom: 20px;">
         
         <% if(content_info) { %>
             <% for(var i=0; i<content_info.length; i++) { %>
