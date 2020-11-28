@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="semantic/semantic.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <meta charset="utf-8">
+    <style>
+        td {
+            text-align: center;
+        }
+
+        td#aa {
+            text-align: left;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        th {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #subname {
+            width: 200px;
+        }
+        #gradation {
+        background: #b1bfca;
+         }
+    </style>
+    
+<title>광운대학교</title>
+
+</head>
+<body style="overflow:hidden;background-color:white;" class="Head_nav" style="font-size:100%;">
+
+<div class="ui secandary menu" style="height: 70px;" id="gradation">
+  <a class="item" href="/Main">
+    <strong>JSK 학사정보시스템</strong>
+  </a>
+  <a class="item" href="/grade_check">
+    <strong>성적 조회</strong>
+  </a>
+  <a class="item" href="/Class">
+    <strong>과목 조회</strong>
+  </a>
+  <div class="right menu">
+    <a class="item" href="/ClassApply">
+      <strong>수강신청하기</strong>
+    </a>
+    <a class="item" href="/Friend">
+      <strong>친구</strong>
+    </a>
+    <script>
+      var sessionuser = '<%-userid%>'
+      if (sessionuser == 'No_One') {
+        document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
+      } else {
+        document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+      }
+    </script>
+  </div>
+
+
+
+</div>
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><%= subject_name[0].subject_name %> 출석 조회</h2>
+
+
+    <div style="overflow:scroll; width:100vw; height:100vh;">
+
+        <table border="1" style="margin: auto">
+            <thead>
+                <tr>
+                    <th>주차</th>
+                    <th>출석</th>
+                </tr>
+            </thead>
+            <% for(var i=0; i<16; i++) { %>
+                <tr>
+                    <td><%= i+1%></td>
+                    <% if( i < rows1.length ) { %>
+                        <td><%=rows1[i].Attendance_check %></td>
+                    <% } else { %>
+                        <td></td>
+                  <% } %>
+                </tr>
+            <% } %>
+        </table>
+        <form method="GET" action="/Class">
+            <td><button class="ui button" style="margin-left:47%;">과목조회</button></td>
+        </form>
+    </div>
+</body>
+
+</html>
