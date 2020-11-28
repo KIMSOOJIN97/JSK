@@ -12,10 +12,11 @@ var pool = mysql.createPool({
 });
 
 var router = express.Router();
+var classname;
 
 router.get('/', function(req, res){
 
-    var classname = req.query.classname||req.body.classname;
+    classname = req.query.classname||req.body.classname;
 
     if(req.session.user){
         pool.getConnection(function(err, connection){
