@@ -3,8 +3,7 @@ module.exports = {
     
     db_info:
         { user:'sa',
-        password: 'rkdvnd52',
-        port: 3300,
+        password: '1234',
         server: 'DESKTOP-V8B43M6',
         database: 'stock' },
 

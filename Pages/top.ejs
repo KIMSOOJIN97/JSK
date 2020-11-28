@@ -10,7 +10,7 @@
   <a class="item" href="/Main">
     <strong>JSK 학사정보시스템</strong>
   </a>
-  <a class="item" href="/Board">
+  <a class="item" href="/grade_check">
     <strong>성적 조회</strong>
   </a>
   <a class="item" href="/Class">
@@ -28,7 +28,7 @@
       if (sessionuser == 'No_One') {
         document.write('<a class="item" href="/Login" style="margin-right:30px"><strong>Login</strong></a></div>');
       } else {
-        document.write('<a class="item" href="/Friend"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
+        document.write('<a class="item" href="/Mypage"><i class="user outline icon"></i><%-userid%></a><a class="item" href="/Logout" style="margin-right:30px"><strong>Logout</strong></a>');
       }
     </script>
   </div>
