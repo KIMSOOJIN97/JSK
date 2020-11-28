@@ -31,13 +31,20 @@ router.get('/', function(req, res){
                 connection.query(strsql, [classname], function(err, rows2){
                     if(err) console.error(err);
 
-                    var context = {userid: req.session.user.id,rows1:rows1, rows2:rows2, classname:classname};
-                    res.render('ZNotice', context);
-                    connection.release();
+                    strsql = "SELECT * FROM Professor where professor_ID = ?";
+                    connection.query(strsql, [req.session.user.id], function(err, rows3){
+                        if(err) console.error(err);
 
-                })
+                        var context = {userid: req.session.user.id,rows1:rows1, rows2:rows2, rows3:rows3,classname:classname};
+                        res.render('ZNotice', context);
+                        connection.release();
+                    });
+
+                });
 
             });
+
+            
         });    
     } else {
         console.log('로그인된 사용자 없음');
