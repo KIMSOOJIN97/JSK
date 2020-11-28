@@ -15,34 +15,43 @@
 
 <body style="overflow:hidden;background-color:#f0f0f0;" class="Head_nav" style="font-size:100%;">
 
-    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><<%= classname %>> 교수 성적입력</h2>
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">교수 성적입력</h2>
 
     <div style="overflow:scroll; width:100vw; height:100vh;">
-        <table>
-            <% for(var i=0; i<rows.length; i++) { %>
-            <form method="POST" action="/ZGrade">
+
+        <table class="ui celled table" width="80px">
+            <thead>
                 <tr>
-                    <td><%= rows[i].student_ID %></td>
-                    <td style="margin-left: 5px; margin-right: 5px;">
-                        <select name="grade" id="gradeid">
-                            <option value="4.5">A+</option>
-                            <option value="4">A</option>
-                            <option value="3.5">B+</option>
-                            <option value="3">B</option>
-                            <option value="2.5">C+</option>
-                            <option value="2">C</option>
-                            <option value="1.5">D+</option>
-                            <option value="1">D</option>
-                            <option value="0">F</option>
-                        </select>
-                    </td>
-                    <td><button class="ui button" name="classname" value="<%= classname %>,<%= rows[i].student_ID %>">입력</button></td>
+                    <th width="20%" align="center" style="text-align:center">학번</th>
+                    <th width="20%" align="center" style="text-align:center">성적</th>
+                    <th width="5%" align="center">입력</th>
                 </tr>
-            </form>
-            <% } %>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<rows.length; i++) { %>
+                <form method="POST" action="/ZGrade">
+                    <tr>
+                        <td><%= rows[i].student_ID %></td>
+                        <td style="margin-left: 5px; margin-right: 5px;">
+                            <select name="grade" id="gradeid">
+                                <option value="4.5">A+</option>
+                                <option value="4">A</option>
+                                <option value="3.5">B+</option>
+                                <option value="3">B</option>
+                                <option value="2.5">C+</option>
+                                <option value="2">C</option>
+                                <option value="1.5">D+</option>
+                                <option value="1">D</option>
+                                <option value="0">F</option>
+                            </select>
+                        </td>
+                        <td><button class="ui button" name="classname"
+                                value="<%= classname %>,<%= rows[i].student_ID %>">입력</button></td>
+                    </tr>
+                </form>
+                <% } %>
+            </tbody>
         </table>
-
-
     </div>
 
 </body>

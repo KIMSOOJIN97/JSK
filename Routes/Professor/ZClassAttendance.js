@@ -12,10 +12,11 @@ var pool = mysql.createPool({
 });
 
 var router = express.Router();
+var classname;
 
 router.get('/', function(req, res){
 
-    var classname = req.query.classname||req.body.classname;
+    classname = req.query.classname||req.body.classname;
 
     if(req.session.user){
         pool.getConnection(function(err, connection){
@@ -38,6 +39,8 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
     if(req.session.user){
+
+        console.log("출석체크 전송");
 
         var week = req.body.week;
         var aa = JSON.parse(JSON.stringify(req.body));
