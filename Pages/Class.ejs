@@ -47,7 +47,6 @@
                     <th>정원</th>
                     <th>출석</th>
                     <th>공지사항</th>
-                    <th>학생게시판</th>
                 </tr>
             </thead>
             <% for(var i=0; i<rows1.length; i++) { %>
@@ -62,9 +61,6 @@
                     </form>
                     <form method="GET" action="/Notice">
                         <td><button class="ui button" name="classname" value="<%= rows1[i].O_no %>">공지사항</button></td>
-                    </form>
-                    <form method="GET" action="/Grade">
-                        <td><button class="ui button" name="classname" value="<%= rows1[i].O_no %>">학생게시판</button></td>
                     </form>
                 </tr>
             <% } %>

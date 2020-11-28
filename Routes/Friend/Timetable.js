@@ -15,6 +15,7 @@ var router = express.Router();
 
 router.post('/', function(req, res){
 
+    console.log('친구시간표 접속');
     if(req.session.user == undefined){
         res.redirect('/Login');
         return;
@@ -23,58 +24,50 @@ router.post('/', function(req, res){
     var aa = JSON.parse(JSON.stringify(req.body)); 
     var checkedmem = Object.keys(aa).length;
     
-    if(checkedmem < 1) {
-        console.log('초대할 사람을 선택하지 않았습니다.');
-        res.send("<script>alert('초대할 사람을 선택하세요.');history.back();</script>");
-        return;
-    }
-    if(checkedmem > 1) {
-        console.log('최대 1명의 친구의 시간표를 확인할 수 있습니다.');
-        res.send("<script>alert('최대 1명의 친구의 시간표를 확인할 수 있습니다.');history.back();</script>");
+    if(checkedmem != 1) {
+        console.log('한명의 시간표를 확인하세요.');
+        res.send("<script>alert('한명의 시간표를 확인하세요.');history.back();</script>");
         return;
     }
 
     var chatusers = [];
-    var chatname = "";
-    chatusers.push(req.session.user.id);
-    chatname += req.session.user.id + ", ";
     for (var key in aa) {
         chatusers.push(key);  
-        chatname += key + ", ";
     }
     console.log("체크된 사용자: " + chatusers);
     console.log("체크된 사용자 수: " + chatusers.length);
-    console.log(chatname);
 
-    pool.getConnection(function(err, connection){
+    var result = new Array();
+    var cnt = 0;
 
-        var strsql = "insert into chatroom (chatroomsize, chatroomname) values (?,?);"
-        connection.query(strsql, [chatusers.length, chatname], function(err, rows) {
-            if(err) console.error(err);
-            console.log('chatroom 생성완료 ' + chatname);
-        });
+    pool.getConnection(function (err, connection) {
+        var sql = "select * from course_registration where student_ID = ?";
+        console.log(chatusers);
+        connection.query(sql, chatusers, function (err, rows1) {
+            if (err) console.error(err);
 
-        strsql = "select chatroom_ID from chatroom where chatroomname = ?";
-        connection.query(strsql, [chatname], function(err, rows){
-            if(err) console.error(err);
+            if(rows1 == ""){
+                console.log('친구의 수강신청 정보가 없습니다.');
+                res.send("<script>alert('친구의 수강신청 정보가 없습니다.');history.back();</script>");
+            }
 
-            var chatroom_ID = rows[0].chatroom_ID;
-            console.log('chatroom_ID: ' + chatroom_ID);
+            var len = rows1.length;
+            sql2 = "select start_time, lecture_time, day_of_week, subject_name from opening_subject natural join lecture_time natural join subject where O_no = ?";
+            for(var i =0; i < len; i++){
+                connection.query(sql2, rows1[i].O_no, function (err2, rows2) {
+                    if (err2) console.error(err2);
 
-            for(var i =0; i<chatusers.length; i++){
+                    result[cnt++] = rows2;
+                    if(cnt == len){
+                        var context = { userid: req.session.user.id, rows1: rows1, result: result, friend_ID: chatusers };
 
-                strsql = "insert into chatmember (chatroom_ID, chatmember_ID) values (?,?)";
-
-                connection.query(strsql, [chatroom_ID, chatusers[i]], function(err, rows){
-                    if(err) console.error(err);
+                        res.render('Timetable', context);
+                        connection.release();
+                    }
                 })
             }
-        });
-
-        res.redirect('/Chat');
-        connection.release();
-
-
+        })
+        
     })
 
 });

@@ -46,11 +46,13 @@
 </head>
 
 <body style="background-color: #f0f0f0">
-    <td>
         <!--상단 메뉴 인클루드--><% include ./top.ejs %></td>
 
-    <table class="type11" style="margin: auto; margin-top:70px">
+    <table class="type11" style="margin: auto; margin-top:70px;">
         <thead>
+            <tr>
+                <th colspan="6">시간표</th>
+            </tr>
             <tr>
                 <th>시간</th>
                 <th>월요일</th>
@@ -574,4 +576,22 @@
             <% d4_cnt = 0; %>
             <% d5_cnt = 0; %>
         </tbody>
+    </table>
+
+    <table class="type11" style="margin: auto; margin-top:70px">
+        <thead>
+            <tr>
+                <th colspan="2" style="width: 940px;">최근공지사항</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0; i<rows.length; i++) { %>
+                <tr>
+                    <td><%= rows[i].S_no %></td>
+                    <td style="width: 780px;"><%= rows[i].title %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
 </body>
