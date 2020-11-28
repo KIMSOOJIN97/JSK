@@ -28,13 +28,14 @@ router.get('/', function(req, res){
                 connection.query(strsql, [req.session.user.id], function(err, rows2){
                     if(err) console.error(err);
 
-                    var context = {rows1: rows1, rows2: rows2};
+                    var context = {userid: req.session.user.id,rows1: rows1, rows2: rows2};
                     res.render('Class', context);
                     connection.release();    
 
                 });
             });
         });
+        
     } else {
         console.log('로그인된 사용자 없음');
         res.send("<script>alert('로그인 되어있지 않습니다.');history.back();</script>");

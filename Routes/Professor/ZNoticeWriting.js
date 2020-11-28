@@ -20,7 +20,7 @@ router.get('/', function(req, res, next){
         var classname = req.body.classname || req.query.classname;
         console.log('공지사항 쓰기화면 접속 ' + req.session.user.id);
 
-        var context = {classname};
+        var context = {classname,userid: req.session.user.id,};
         res.render('ZNoticeWriting', context);
     } else {
         console.log('로그인된 사용자 없음');

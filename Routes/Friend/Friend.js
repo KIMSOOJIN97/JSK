@@ -24,7 +24,7 @@ router.get('/', function(req, res, next){
                 if(err) console.error(err);
             
                 console.log("친구목록 "+ rows.length + "명");
-                var context = {rows};
+                var context = {rows:rows , userid:userid};
 
                 res.render('Friend', context);
                 connection.release();

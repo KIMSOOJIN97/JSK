@@ -31,7 +31,7 @@ router.get('/', function(req, res){
                 connection.query(strsql, [classname], function(err, rows2){
                     if(err) console.error(err);
 
-                    var context = {rows1:rows1, rows2:rows2, classname:classname};
+                    var context = {userid: req.session.user.id,rows1:rows1, rows2:rows2, classname:classname};
                     res.render('ZNotice', context);
                     connection.release();
 
