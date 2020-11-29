@@ -37,15 +37,17 @@ router.post('/', function(req, res, next){
         var title = req.body.title || req.query.title;
         var content = req.body.content || req.query.content;
         var professor_ID = req.session.user.id;
+        var date = req.body.date || req.query.date;
 
+        console.log(classname);
 
         pool.getConnection(function(err, connection){
-            var strsql = "SELECT S_no FROM subject WHERE subject_name = '"+ classname +"'";
-            connection.query(strsql, function(err, rows1){
+            var strsql = "SELECT S_no FROM subject WHERE subject_name = ?";
+            connection.query(strsql,classname, function(err, rows1){
                 if(err) console.error(err);
                 
-                strsql = "INSERT INTO notice (professor_ID, S_no, title, content) values (?,?,?,?)"
-                connection.query(strsql, [professor_ID, rows1[0].S_no, title, content], function(err, rows2){
+                strsql = "INSERT INTO notice (professor_ID, S_no, title, content,notice_date) values (?,?,?,?,?)";
+                connection.query(strsql, [professor_ID, rows1[0].S_no, title, content,date], function(err, rows2){
                     if(err) console.error(err);
 
                     res.redirect('/ZClass');
@@ -54,9 +56,6 @@ router.post('/', function(req, res, next){
                 });
             });
         });
-
-
-
 
 
     } else {

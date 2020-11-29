@@ -22,6 +22,7 @@ router.get('/', function (req, res) {
         pool.getConnection(function (err, connection) {
 
             var strsql = "SELECT * FROM notice WHERE S_no IN (SELECT O_no FROM course_registration WHERE student_ID = ?) LIMIT 5";
+
             connection.query(strsql, req.session.user.id, function (err, rows) {
                 if (err) console.error(err);
 

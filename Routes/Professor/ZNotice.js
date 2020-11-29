@@ -14,6 +14,8 @@ var pool = mysql.createPool({
 var router = express.Router();
 
 router.get('/', function(req, res){
+    var result = new Array();
+    var cnt = 0
         
     var classname = req.body.classname || req.query.classname;
 
@@ -22,20 +24,19 @@ router.get('/', function(req, res){
 
         pool.getConnection(function(err, connection){
 
-            var strsql = "SELECT * FROM notice where S_no = ?";
-            connection.query(strsql, [classname], function(err, rows1){
+            var strsql = "SELECT * FROM Professor where professor_ID = ?";
+            connection.query(strsql, [req.session.user.id], function(err, prof){
                 if(err) console.error(err);
-
-
-                strsql = "SELECT * FROM subject where S_no = ?";
-                connection.query(strsql, [classname], function(err, rows2){
+                
+                var strsql = "SELECT * FROM subject where S_no = ?";
+                connection.query(strsql, [classname], function(err, subject){
                     if(err) console.error(err);
 
-                    strsql = "SELECT * FROM Professor where professor_ID = ?";
-                    connection.query(strsql, [req.session.user.id], function(err, rows3){
+                    var strsql = "SELECT * FROM Notice where S_no = ?"
+                    connection.query(strsql, [classname], function(err, notice){
                         if(err) console.error(err);
 
-                        var context = {userid: req.session.user.id,rows1:rows1, rows2:rows2, rows3:rows3,classname:classname};
+                        var context = {userid:req.session.user.id,notice:notice, prof:prof, subject:subject,classname:classname};
                         res.render('ZNotice', context);
                         connection.release();
                     });
@@ -56,19 +57,24 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
         
     var boardno = req.body.boardno || req.query.boardno;
-    var boardinfo = boardno.split(',');
+    console.log(boardno);
 
     if(req.session.user){
 
         pool.getConnection(function(err, connection){
 
-            var strsql = "SELECT * FROM notice where Notice_no = ? AND S_no = ?";
-            connection.query(strsql, [boardinfo[0], boardinfo[1]], function(err, rows){
+            var strsql = "SELECT * FROM notice where Notice_no = ?";
+            connection.query(strsql, boardno, function(err, rows){
                 if(err) console.error(err);
-
-                var context = {rows:rows, boardno: boardno};
-                res.render('ZNoticeContent', context);
-                connection.release();
+                
+                var strsql = "SELECT * FROM Professor where professor_ID = ?";
+                connection.query(strsql, [req.session.user.id] , function(err, rows2){
+                    if(err) console.error(err);
+                    
+                    var context = {userid:req.session.user.id, rows:rows,rows2:rows2,boardno: boardno};
+                    res.render('ZNoticeContent', context);
+                    connection.release();
+                });
             });
         });    
     } else {
@@ -76,5 +82,6 @@ router.post('/', function(req, res){
         res.send("<script>alert('로그인 되어있지 않습니다.');history.back();</script>");
     }
 });
+
 
 module.exports = router;

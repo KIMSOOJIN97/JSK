@@ -41,10 +41,10 @@
       </div>
       </div>
       
-    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><<%= rows2[0].subject_name %>> 공지사항</h2>
+    <h2 style="text-align: center; margin-top: 20px; margin-bottom: 20px;"><<%= subject[0].subject_name %>> 공지사항</h2>
 
     <div style="overflow:scroll; width:100vw; height:100vh;">
-        <p>게시글 수: <%= rows1.length %> </p>
+        <p>게시글 수: <%= notice.length %> </p>
 
         <table class="ui celled table">
             <thead>
@@ -56,18 +56,18 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(var i=0; i<rows1.length; i++) { %>
-                <tr id="<%=rows1[i].Notice_no%>">
-                    <td><%= rows1[i].Notice_no %></td>
+                <% for(var i=0; i<notice.length; i++) { %>
+                <tr id="<%=notice[i].Notice_no%>">
+                    <td><%= i+1%></td>
                     <td>
                         <form method="POST" action="/ZNotice">
-                            <button class="basic ui button" name="boardno" value="<%= rows1[i].Notice_no %>,<%= classname %>">
-                                <%= rows1[i].title %>
+                            <button class="basic ui button" name="boardno" value="<%= notice[i].Notice_no %>">
+                                <%= notice[i].title %>
                             </button>
                         </form>
                     </td>
-                    <td><%= rows3[i].professor_name %></td>
-                    <td style="text-align:center"><%= rows1[i].Notice_date %></td>
+                    <td><%= prof[0].professor_name %></td>
+                    <td style="text-align:center"><%= notice[i].Notice_date %></td>
                 </tr>
                 <% } %>
             </tbody>
@@ -75,7 +75,7 @@
 
         <form method="GET" action="/ZNoticeWriting">
             <div align="right" style="padding-right:40px; padding-top:10px">
-                <button class="ui button" name="classname" value="<%=rows2[0].subject_name%>">
+                <button class="ui button" name="classname" value="<%=subject[0].subject_name%>">
                     Write Content
                 </button>
             </div>

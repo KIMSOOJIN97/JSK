@@ -41,7 +41,6 @@ router.post('/', function(req, res, next){
     pool.getConnection(function (err, connection){
         var searchedID = req.body.friendID;
         var strsql = "select * from student where student_ID = ?";
-
         connection.query(strsql, [searchedID], function(err, rows){
             if(err) console.error(err);
             console.log("검색한 친구 "+rows);

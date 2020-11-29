@@ -1,20 +1,90 @@
 var http = require('http');
 var express = require('express');
 var router = express.Router();
+var mysql = require('mysql');
+var config = require('../../config');
+
+var pool = mysql.createPool({
+	connectionLimit: 5,
+	host: 'localhost',
+	user: 'root',
+	database: 'jsk_db',
+    password: config.db_info.password,
+    port: config.db_info.port
+});
+
+var router = express.Router();
 
 
 router.get('/', function(req, res){
-    console.log('ZMain 접속');
+    var result = new Array();
+    var cnt = 0;
 
-    if(req.session.user) {
-        var context = {userid:req.session.user.id};
-        res.render('ZMain', context);
+
+    if(req.session.user){
+
+        pool.getConnection(function(err, connection){
+
+            var strsql = "SELECT * FROM notice where professor_ID=? order by Notice_no";
+            connection.query(strsql, [req.session.user.id], function(err, rows1){
+                if(err) console.error(err);
+
+                var len = rows1.length;
+                var strsql = "SELECT * FROM Subject where S_no =?";
+                for(var i=0;i<len;i++){
+                    connection.query(strsql,rows1[i].S_no, function(err, rows2){
+                        if(err) console.error(err);
+                        result[cnt++] = rows2;
+                        if(cnt==len){
+                            console.log(result);
+                            var context = {userid: req.session.user.id,rows1:rows1,result:result};
+                            res.render('ZMain', context);
+                            connection.release();
+                        }
+                        
+                    });
+                }
+
+            });
+            
+        });    
     } else {
-        
-        var context = {userid:'No_One'};
-        res.render('ZMain', context);
+        console.log('로그인된 사용자 없음');
+        res.send("<script>alert('로그인 되어있지 않습니다.');history.back();</script>");
     }
-    
 });
 
+
+router.post('/', function(req, res){
+        
+    var boardno = req.body.boardno || req.query.boardno;
+    console.log(boardno);
+
+    if(req.session.user){
+
+        pool.getConnection(function(err, connection){
+
+            var strsql = "SELECT * FROM notice where Notice_no = ?";
+            connection.query(strsql, boardno, function(err, rows){
+                if(err) console.error(err);
+
+                var strsql = "SELECT * FROM Professor where professor_ID = ?";
+                connection.query(strsql, [req.session.user.id] , function(err, rows2){
+                    if(err) console.error(err);
+                    
+                    var context = {userid: req.session.user.id,rows:rows, rows2:rows2,boardno: boardno};
+                    res.render('ZNoticeContent', context);
+                    connection.release();
+                });
+            });
+        });    
+    } else {
+        console.log('로그인된 사용자 없음');
+        res.send("<script>alert('로그인 되어있지 않습니다.');history.back();</script>");
+    }
+});
+
+
+
 module.exports = router;
+
